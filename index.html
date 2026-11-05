@@ -1,0 +1,322 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no, viewport-fit=cover">
+  <meta name="theme-color" content="#0b100c">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="mobile-web-app-capable" content="yes">
+  <meta name="description" content="Last Light - an isometric, mobile-first survival sandbox. Loot Havenwood, avoid the dead, build a fire, and reach extraction.">
+  <title>Last Light — Survival Sandbox</title>
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+  <canvas id="game" aria-label="Isometric game world"></canvas>
+
+  <div id="hud" class="hidden">
+    <header class="hud-top">
+      <div class="hud-left">
+        <div class="panel clock-card">
+          <div class="clock-main">
+            <span id="hud-time">08:00</span>
+            <span id="hud-day" class="day-pill">DAY 1</span>
+          </div>
+          <div class="clock-sub">
+            <span id="hud-phase">Morning</span>
+            <span id="hud-temp">18°C</span>
+            <span id="hud-weather">Clear</span>
+          </div>
+          <div id="hud-location" class="location">Havenwood</div>
+        </div>
+
+        <div class="panel vitals" id="vitals">
+          <div class="vital" data-v="health"><span class="v-ico">♥</span><div class="bar"><i></i></div><b>100</b></div>
+          <div class="vital" data-v="stamina"><span class="v-ico">⚡</span><div class="bar"><i></i></div><b>100</b></div>
+          <div class="vital" data-v="hunger"><span class="v-ico">🍖</span><div class="bar"><i></i></div><b>82</b></div>
+          <div class="vital" data-v="thirst"><span class="v-ico">💧</span><div class="bar"><i></i></div><b>76</b></div>
+          <div class="vital" data-v="fatigue"><span class="v-ico">☾</span><div class="bar"><i></i></div><b>18</b></div>
+          <div class="vital" data-v="warmth"><span class="v-ico">🌡</span><div class="bar"><i></i></div><b>64</b></div>
+        </div>
+        <div id="status-icons" class="status-icons"></div>
+      </div>
+
+      <div class="hud-right">
+        <div class="minimap-wrap panel" id="minimap-wrap">
+          <canvas id="minimap" width="168" height="168"></canvas>
+          <span class="map-n">N</span>
+        </div>
+        <div class="top-buttons">
+          <button class="icon-btn" data-open="inventory" aria-label="Inventory">🎒<span>Pack</span></button>
+          <button class="icon-btn" data-open="map" aria-label="Map">🗺<span>Map</span></button>
+          <button class="icon-btn" data-open="pause" aria-label="Pause menu">☰<span>Menu</span></button>
+        </div>
+        <div class="panel quest-tracker" id="quest-tracker">
+          <h3>OBJECTIVES</h3>
+          <ul></ul>
+        </div>
+      </div>
+    </header>
+
+    <div id="interact-prompt" class="prompt hidden">
+      <span class="key">E</span><span id="interact-label">Search</span>
+    </div>
+
+    <div id="toasts" class="toasts" aria-live="polite"></div>
+
+    <div id="build-bar" class="build-bar hidden">
+      <span id="build-name">Campfire</span>
+      <button id="build-place" class="mini primary">Place</button>
+      <button id="build-cancel" class="mini">Cancel</button>
+    </div>
+
+    <div class="desktop-hints" id="desktop-hints">
+      <span><b>WASD</b> move</span><span><b>Shift</b> run</span><span><b>Space</b> hit</span>
+      <span><b>E</b> use</span><span><b>I</b> pack</span><span><b>M</b> map</span><span><b>Esc</b> menu</span>
+    </div>
+
+    <div class="touch-left touch-only" id="touch-left">
+      <div id="joystick" class="joystick" aria-label="Movement joystick">
+        <div class="joy-ring"></div>
+        <div class="stick"></div>
+      </div>
+    </div>
+
+    <div class="touch-right touch-only" id="touch-right">
+      <button id="btn-interact" class="round action interact" aria-label="Interact">✋<span>Use</span></button>
+      <button id="btn-attack" class="round action attack" aria-label="Attack">⚔<span>Hit</span></button>
+      <button id="btn-sprint" class="round small" aria-label="Toggle run">🏃</button>
+      <button id="btn-crouch" class="round small" aria-label="Toggle crouch">🕶</button>
+      <button id="btn-light" class="round small" aria-label="Toggle light">🔦</button>
+    </div>
+  </div>
+
+  <!-- ============================== TITLE ============================== -->
+  <div id="screen-title" class="screen title-screen">
+    <div class="title-vignette"></div>
+    <div class="title-content">
+      <div class="eyebrow">A SINGLE-PLAYER SURVIVAL SANDBOX</div>
+      <h1>LAST<span>LIGHT</span></h1>
+      <p class="tagline">Havenwood is gone. The dead are not.</p>
+      <div class="title-buttons">
+        <button id="btn-continue" class="btn primary large hidden">Continue Survivor</button>
+        <button id="btn-new" class="btn large">New Survivor</button>
+        <button id="btn-quick" class="btn ghost">Quick Start</button>
+      </div>
+      <div class="title-foot">
+        <span>Isometric · Single-player · Autosaves locally</span>
+        <span id="title-save-info"></span>
+      </div>
+    </div>
+    <div class="title-side">
+      <div class="side-line"></div>
+      <p>Survive the first three days.<br>Search. Fortify. Stay quiet.<br>Reach the school at first light.</p>
+    </div>
+  </div>
+
+  <!-- ============================ CREATE ============================== -->
+  <div id="screen-create" class="screen modal-screen hidden">
+    <div class="sheet wide">
+      <header class="sheet-head">
+        <div><h2>New Survivor</h2><p class="muted">Who were you before the lights went out?</p></div>
+        <button class="close" data-close aria-label="Close">×</button>
+      </header>
+      <div class="sheet-body create-grid">
+        <section>
+          <label class="field">
+            <span>Name</span>
+            <input id="create-name" maxlength="18" value="Avery" autocomplete="off" spellcheck="false">
+          </label>
+          <div class="field">
+            <span>Profession</span>
+            <div id="profession-list" class="profession-list"></div>
+          </div>
+        </section>
+        <section>
+          <div class="field">
+            <span>Difficulty</span>
+            <div id="difficulty-list" class="seg"></div>
+          </div>
+          <div class="panel info-panel" id="profession-info"></div>
+          <div class="panel info-panel compact">
+            <h3>FIRST NIGHT CHECKLIST</h3>
+            <ul class="check-list">
+              <li>Search kitchens, pharmacies and garages.</li>
+              <li>Drink, eat and bandage before the bars empty.</li>
+              <li>Melee is quiet. Guns bring the whole street.</li>
+              <li>Build a campfire, then reach Havenwood High.</li>
+            </ul>
+          </div>
+        </section>
+      </div>
+      <footer class="sheet-foot">
+        <button class="btn ghost" data-close>Back</button>
+        <button id="create-start" class="btn primary">Enter Havenwood</button>
+      </footer>
+    </div>
+  </div>
+
+  <!-- =========================== INVENTORY =========================== -->
+  <div id="screen-inventory" class="screen modal-screen hidden">
+    <div class="sheet wide tall">
+      <header class="sheet-head">
+        <div><h2 id="inv-title">Survivor</h2><p id="inv-sub" class="muted"></p></div>
+        <div class="weight-box">
+          <span id="inv-weight">0 / 8 kg</span>
+          <div class="bar slim"><i id="inv-weight-bar"></i></div>
+        </div>
+        <button class="close" data-close aria-label="Close">×</button>
+      </header>
+      <nav class="tabs" id="inv-tabs">
+        <button data-tab="items" class="active">Pack</button>
+        <button data-tab="equipment">Equipped</button>
+        <button data-tab="craft">Craft</button>
+        <button data-tab="build">Build</button>
+        <button data-tab="status">Status</button>
+      </nav>
+      <div class="sheet-body scroll" id="inv-body"></div>
+    </div>
+  </div>
+
+  <!-- ============================= LOOT ============================== -->
+  <div id="screen-loot" class="screen modal-screen hidden">
+    <div class="sheet wide tall loot-sheet">
+      <header class="sheet-head">
+        <div><h2 id="loot-title">Container</h2><p id="loot-sub" class="muted"></p></div>
+        <button class="close" data-close aria-label="Close">×</button>
+      </header>
+      <div class="loot-cols">
+        <section class="loot-col">
+          <h3>Container <button id="loot-take-all" class="mini">Take all</button></h3>
+          <div id="loot-list" class="item-list scroll"></div>
+        </section>
+        <section class="loot-col">
+          <h3>Your pack <span id="loot-weight" class="muted"></span></h3>
+          <div id="loot-inv" class="item-list scroll"></div>
+        </section>
+      </div>
+    </div>
+  </div>
+
+  <!-- ============================== MAP ============================== -->
+  <div id="screen-map" class="screen modal-screen hidden">
+    <div class="sheet wide tall map-sheet">
+      <header class="sheet-head">
+        <div><h2>Havenwood County</h2><p id="map-sub" class="muted"></p></div>
+        <button class="close" data-close aria-label="Close">×</button>
+      </header>
+      <div class="map-wrap"><canvas id="world-map" width="900" height="900"></canvas></div>
+      <p class="map-hint">Tap anywhere you have explored to place a waypoint. Dark areas are unknown.</p>
+    </div>
+  </div>
+
+  <!-- ============================= SLEEP ============================= -->
+  <div id="screen-sleep" class="screen modal-screen hidden">
+    <div class="sheet narrow">
+      <header class="sheet-head">
+        <div><h2>Rest</h2><p class="muted">Sleeping restores fatigue and health, but time passes.</p></div>
+        <button class="close" data-close aria-label="Close">×</button>
+      </header>
+      <div class="sheet-body">
+        <p class="muted" id="sleep-flavor">The building is quiet enough. Probably.</p>
+        <div class="stack-buttons">
+          <button class="btn primary" data-sleep="8">Sleep 8 hours</button>
+          <button class="btn" data-sleep="3">Nap for 3 hours</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ============================= PAUSE ============================= -->
+  <div id="screen-pause" class="screen modal-screen hidden">
+    <div class="sheet narrow">
+      <header class="sheet-head">
+        <div><h2>Paused</h2><p id="pause-sub" class="muted"></p></div>
+        <button class="close" data-close aria-label="Close">×</button>
+      </header>
+      <div class="sheet-body">
+        <div class="stack-buttons">
+          <button id="pause-resume" class="btn primary">Resume</button>
+          <button id="pause-save" class="btn">Save now</button>
+          <button id="pause-help" class="btn ghost">Controls &amp; tips</button>
+        </div>
+        <h3 class="section-title">SETTINGS</h3>
+        <label class="row-setting"><span>Sound</span><input type="checkbox" id="set-sound" checked></label>
+        <label class="row-setting"><span>Volume</span><input type="range" id="set-volume" min="0" max="1" step="0.05" value="0.65"></label>
+        <label class="row-setting"><span>Graphics</span>
+          <select id="set-quality">
+            <option value="auto">Auto</option>
+            <option value="low">Low / battery saver</option>
+            <option value="high">High</option>
+          </select>
+        </label>
+        <h3 class="section-title">RUN</h3>
+        <button id="pause-abandon" class="btn danger wide">Abandon run</button>
+        <p class="tiny muted">Abandoning deletes the autosave for this survivor.</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- ============================= HELP ============================== -->
+  <div id="screen-help" class="screen modal-screen hidden">
+    <div class="sheet">
+      <header class="sheet-head">
+        <div><h2>How to Survive</h2><p class="muted">Everything is connected. Use it.</p></div>
+        <button class="close" data-close aria-label="Close">×</button>
+      </header>
+      <div class="sheet-body scroll help-body">
+        <h3 class="section-title">CONTROLS</h3>
+        <div class="help-grid">
+          <div><b>Desktop</b><br>WASD / arrows move · Shift run · C crouch · Space attack · E interact · I pack · M map · Esc pause · F light.</div>
+          <div><b>Touch</b><br>Left joystick moves. Right buttons fight, use, run, crouch and light. Tap the minimap to open the full map.</div>
+        </div>
+        <h3 class="section-title">THE LOOP</h3>
+        <ul class="check-list">
+          <li><b>Search</b> kitchens, shelves, lockers and trunks. Loot is finite and stays looted.</li>
+          <li><b>Eat, drink, rest.</b> Empty bars drain health. Rain and night drain warmth.</li>
+          <li><b>Fight carefully.</b> Weapons lose durability. Swings cost stamina. Guns attract everything.</li>
+          <li><b>Craft</b> bandages, torches and spears from the Pack screen.</li>
+          <li><b>Build</b> a campfire outside a safehouse. Campfires cook food and keep you warm.</li>
+          <li><b>Objectives:</b> search 3 containers, kill 3 infected, build a campfire, then reach Havenwood High after Day 3, 06:00.</li>
+        </ul>
+        <h3 class="section-title">SKILLS</h3>
+        <p class="muted">Combat, carpentry, first aid, cooking, farming and survival rise with use. Higher levels unlock recipes and improve results.</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- ============================= DEATH ============================= -->
+  <div id="screen-death" class="screen end-screen hidden">
+    <div class="end-card">
+      <div class="eyebrow bad">YOU DIED</div>
+      <h1>THE LIGHT GOES OUT</h1>
+      <p id="death-reason" class="muted"></p>
+      <div class="end-stats" id="death-stats"></div>
+      <div class="title-buttons">
+        <button id="death-respawn" class="btn primary large">Survive Again</button>
+        <button id="death-title" class="btn ghost">Title Screen</button>
+      </div>
+      <p class="tiny muted">Death is permanent. This run's autosave has been removed.</p>
+    </div>
+  </div>
+
+  <!-- ============================ VICTORY =========================== -->
+  <div id="screen-victory" class="screen end-screen hidden">
+    <div class="end-card victory">
+      <div class="eyebrow good">EXTRACTION COMPLETE</div>
+      <h1>YOU MADE IT OUT</h1>
+      <p id="victory-text" class="muted">The convoy pulls away. Havenwood shrinks behind you.</p>
+      <div class="end-stats" id="victory-stats"></div>
+      <div class="title-buttons">
+        <button id="victory-continue" class="btn primary large">Keep Exploring</button>
+        <button id="victory-title" class="btn ghost">Title Screen</button>
+      </div>
+    </div>
+  </div>
+
+  <noscript>
+    <div class="noscript">This game needs JavaScript enabled.</div>
+  </noscript>
+
+  <script type="module" src="js/main.js"></script>
+</body>
+</html>
