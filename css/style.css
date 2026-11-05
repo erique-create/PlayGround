@@ -350,7 +350,14 @@ kbd {
 .bg-card p { margin: 4px 0 0; color: #929986; font-size: 10.5px; line-height: 1.42; }
 .bg-skills { display: flex; flex-wrap: wrap; gap: 4px; margin-top: 9px; }
 .bg-skills span { font-size: 8.5px; letter-spacing: 0.06em; color: var(--amber); border: 1px solid rgba(224,185,95,0.24); background: rgba(224,185,95,0.06); border-radius: 20px; padding: 2px 6px; }
-.char-footer { display: flex; justify-content: space-between; align-items: center; gap: 22px; margin-top: auto; padding-top: 24px; }
+.char-footer {
+  display: flex; justify-content: space-between; align-items: center; gap: 22px;
+  position: sticky; bottom: 0; z-index: 3;
+  margin: auto -28px -20px; padding: 16px 28px 18px;
+  border-top: 1px solid var(--line);
+  background: linear-gradient(180deg, rgba(12,16,11,0.42), rgba(12,16,11,0.985) 46%);
+  backdrop-filter: blur(7px);
+}
 .char-summary {
   flex: 1; border-left: 2px solid rgba(224,185,95,0.42);
   padding: 10px 16px; color: #b6b9a5; font-size: 12px; line-height: 1.6;
@@ -884,12 +891,23 @@ kbd {
 .touch-btn.interact { grid-column: 2; grid-row: 1 / 3; width: 62px; height: 62px; align-self: end; font-weight: 700; }
 .touch-btn.small { font-size: 15px; }
 
+/* Telas mais baixas: compacta a criação de personagem para o botão inicial caber. */
+@media (max-height: 820px) {
+  .char-body { padding: 16px 20px 0; }
+  .char-top { margin-bottom: 14px; gap: 16px; }
+  .bg-card { min-height: 100px; padding: 10px 11px; }
+  .bg-icon { font-size: 18px; margin-bottom: 2px; }
+  .bg-card p { font-size: 9.5px; line-height: 1.3; }
+  .bg-skills { margin-top: 5px; }
+  .char-footer { margin: auto -20px 0; padding: 12px 20px 14px; }
+  .char-summary { padding: 7px 12px; font-size: 11px; line-height: 1.45; }
+}
+
 /* ==========================================================================
    RESPONSIVO
    ========================================================================== */
 @media (max-width: 1100px) {
-  .hud-right { width: 235px; top: 282px; }
-  .background-grid { grid-template-columns: repeat(3, 1fr); }
+  .hud-right { width: 235px; top: 282px; }  .background-grid { grid-template-columns: repeat(3, 1fr); }
   .how-body { grid-template-columns: 1fr 1fr; }
   .how-body section:last-child { grid-column: 1 / -1; }
 }
@@ -909,7 +927,7 @@ kbd {
   .char-top { grid-template-columns: 1fr; gap: 18px; }
   .background-grid { grid-template-columns: repeat(2, 1fr); }
   .bg-card { min-height: 112px; }
-  .char-footer { flex-direction: column; align-items: stretch; }
+  .char-footer { flex-direction: column; align-items: stretch; margin: auto -18px -16px; padding: 14px 18px 16px; }
   .char-footer .btn-primary { width: 100%; }
   .mp-body { grid-template-columns: 1fr; padding: 20px; }
   .mp-info { border-right: 0; border-bottom: 1px solid var(--line); padding: 0 0 20px; }

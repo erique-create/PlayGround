@@ -1378,9 +1378,11 @@ export const systems = {
     const p = this.player;
     let tx, ty;
     if (this.input.pointerActive) {
-      const z = this.camera.zoom || 1;
-      tx = Math.floor((this.camera.x + this.input.pointerX / z) / TILE);
-      ty = Math.floor((this.camera.y + this.input.pointerY / z) / TILE);
+      const world = this.screenToWorld
+        ? this.screenToWorld(this.input.pointerX, this.input.pointerY)
+        : { x: this.camera.x + this.input.pointerX / (this.camera.zoom || 1), y: this.camera.y + this.input.pointerY / (this.camera.zoom || 1) };
+      tx = Math.floor(world.x / TILE);
+      ty = Math.floor(world.y / TILE);
     } else {
       tx = Math.floor((p.x + Math.cos(p.angle) * 48) / TILE);
       ty = Math.floor((p.y + Math.sin(p.angle) * 48) / TILE);

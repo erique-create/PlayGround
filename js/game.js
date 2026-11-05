@@ -581,8 +581,10 @@ export class Game {
     }
     // mira
     if (inp.pointerActive) {
-      const z = this.camera.zoom || 1;
-      const wx = this.camera.x + inp.pointerX / z, wy = this.camera.y + inp.pointerY / z;
+      const world = this.screenToWorld
+        ? this.screenToWorld(inp.pointerX, inp.pointerY)
+        : { x: this.camera.x + inp.pointerX / (this.camera.zoom || 1), y: this.camera.y + inp.pointerY / (this.camera.zoom || 1) };
+      const wx = world.x, wy = world.y;
       p.angle = angleTo(p.x, p.y, wx, wy);
       this.aim.x = wx; this.aim.y = wy; this.aim.active = true;
     } else if (inp.touchAim) {

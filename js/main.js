@@ -1,6 +1,6 @@
 // Ponto de entrada: fluxo de telas, entrada, loop principal e cooperativo local.
 import { Game } from './game.js';
-import { Renderer } from './renderer.js';
+import { Renderer } from './renderer3d.js';
 import { UI } from './ui.js';
 import { Multiplayer } from './multiplayer.js';
 import { audio } from './audio.js';
@@ -446,9 +446,11 @@ canvas?.addEventListener('pointerdown', (e) => {
 
   if (e.pointerType === 'touch') {
     // Toque no cenário: mira no ponto e ataca enquanto pressiona.
-    const z = game.camera.zoom || 1;
-    const wx = game.camera.x + e.clientX / z;
-    const wy = game.camera.y + e.clientY / z;
+    const world = game.screenToWorld
+      ? game.screenToWorld(e.clientX, e.clientY)
+      : { x: game.camera.x + e.clientX / (game.camera.zoom || 1), y: game.camera.y + e.clientY / (game.camera.zoom || 1) };
+    const wx = world.x;
+    const wy = world.y;
     game.input.pointerActive = false;
     game.input.touchAim = { x: wx, y: wy };
     game.input.attack = true;
