@@ -1,0 +1,498 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no, viewport-fit=cover" />
+<meta name="theme-color" content="#0c100d" />
+<title>Último Abrigo — Sobrevivência Zumbi</title>
+<link rel="stylesheet" href="css/style.css" />
+</head>
+<body>
+<div id="app">
+  <canvas id="gameCanvas"></canvas>
+
+  <!-- ================= HUD ================= -->
+  <div id="hud" class="hidden">
+    <div class="hud-top-left">
+      <div class="clock-card">
+        <div class="clock-main"><span id="dayLabel">DIA 1</span><strong id="clockLabel">08:10</strong></div>
+        <div class="clock-sub"><span id="weatherLabel">☀️ Limpo</span><span id="seasonLabel">Verão</span><span id="tempLabel">36.8°C</span></div>
+      </div>
+      <div id="zoneLabel" class="zone-label">Vale Sereno</div>
+    </div>
+
+    <div class="hud-top-right">
+      <div class="minimap-card">
+        <canvas id="minimap" width="200" height="200"></canvas>
+        <div class="minimap-footer"><span id="coordLabel">—</span><span id="survivorCount">☣ 0</span></div>
+      </div>
+      <div id="mpRoster" class="mp-roster hidden"></div>
+    </div>
+
+    <div class="vitals-card">
+      <div class="vital" data-v="health"><span class="v-icon">❤️</span><div class="v-bar"><i></i></div><span class="v-val">100</span></div>
+      <div class="vital" data-v="hunger"><span class="v-icon">🍖</span><div class="v-bar"><i></i></div><span class="v-val">82</span></div>
+      <div class="vital" data-v="thirst"><span class="v-icon">💧</span><div class="v-bar"><i></i></div><span class="v-val">78</span></div>
+      <div class="vital" data-v="stamina"><span class="v-icon">⚡</span><div class="v-bar"><i></i></div><span class="v-val">100</span></div>
+      <div class="vital" data-v="sleep"><span class="v-icon">😴</span><div class="v-bar"><i></i></div><span class="v-val">12</span></div>
+      <div class="vital" data-v="hygiene"><span class="v-icon">🧼</span><div class="v-bar"><i></i></div><span class="v-val">84</span></div>
+      <div class="status-row" id="statusRow"></div>
+    </div>
+
+    <div class="hud-bottom-center">
+      <div id="interactPrompt" class="interact-prompt hidden"><kbd>E</kbd><span class="ip-icon">📦</span><span id="interactLabel">Vasculhar</span></div>
+      <div class="hotbar-wrap">
+        <div class="equipped-card" id="equippedCard"><span class="eq-label">ARMA</span><span id="equippedName">Punhos</span></div>
+        <div id="hotbar" class="hotbar"></div>
+      </div>
+      <div class="hint-bar" id="hintBar">
+        <span><kbd>WASD</kbd> mover</span><span><kbd>Shift</kbd> correr</span><span><kbd>Ctrl</kbd> furtivo</span>
+        <span><kbd>E</kbd> interagir</span><span><kbd>I</kbd> mochila</span><span><kbd>B</kbd> construir</span><span><kbd>M</kbd> mapa</span><span><kbd>K</kbd> habilidades</span>
+      </div>
+    </div>
+
+    <div class="hud-right">
+      <div class="objectives-card" id="objectivesCard">
+        <header id="objectivesHeader"><span>📓 Diário de sobrevivência</span><button id="objToggle" aria-label="Recolher">–</button></header>
+        <ul id="objList"></ul>
+      </div>
+      <div id="toasts" class="toasts"></div>
+    </div>
+
+    <div id="eventBanner" class="event-banner hidden"><span class="ev-icon">🧟</span><div><strong class="ev-title">Horda à vista</strong><p class="ev-desc"></p></div></div>
+    <div id="dayBanner" class="day-banner hidden"><span id="dayBannerIcon">🌅</span><div><strong id="dayBannerTitle">Dia 2</strong><p id="dayBannerSub">Outono chegou.</p></div></div>
+
+    <div id="markerHud" class="marker-hud hidden"><span class="mk-icon">🎁</span><span id="markerText">Suprimentos</span><span id="markerDist">240m</span></div>
+    <div id="downedOverlay" class="downed-overlay hidden"><div class="downed-box"><span class="downed-icon">💀</span><h2>Você caiu</h2><p id="downedText">Aguarde um aliado reanimar você. 45s</p></div></div>
+    <div id="chatBox" class="chat-box hidden">
+      <div id="chatLog" class="chat-log"></div>
+      <input id="chatInput" maxlength="120" placeholder="Mensagem para a equipe..." autocomplete="off" />
+    </div>
+    <button id="chatToggle" class="chat-toggle hidden">💬</button>
+  </div>
+
+  <!-- ================= MENU ================= -->
+  <div id="menu" class="screen menu-screen">
+    <canvas id="menuCanvas"></canvas>
+    <div class="menu-vignette"></div>
+    <div class="menu-content">
+      <div class="brand">
+        <div class="brand-kicker">UM MUNDO ABERTO · UMA LUTA DIÁRIA</div>
+        <h1>ÚLTIMO<span>ABRIGO</span></h1>
+        <div class="brand-rule"></div>
+        <p class="tagline">O mundo acabou. Você ainda está aqui.</p>
+      </div>
+      <div class="menu-actions">
+        <button id="btnNew" class="menu-btn primary">
+          <span class="mb-main">Novo jogo</span><span class="mb-sub">Comece sua história de sobrevivência</span><span class="mb-arrow">→</span>
+        </button>
+        <button id="btnContinue" class="menu-btn">
+          <span class="mb-main">Continuar</span><span class="mb-sub" id="continueInfo">Nenhum jogo salvo</span><span class="mb-arrow">→</span>
+        </button>
+        <button id="btnMulti" class="menu-btn">
+          <span class="mb-main">Multijogador</span><span class="mb-sub">Cooperativo local por abas</span><span class="mb-arrow">→</span>
+        </button>
+        <button id="btnHow" class="menu-btn ghost">
+          <span class="mb-main">Como jogar</span><span class="mb-sub">Controles, sobrevivência e dicas</span><span class="mb-arrow">→</span>
+        </button>
+      </div>
+      <div class="menu-footer">
+        <span>APOCALIPSE ZUMBI · SOBREVIVÊNCIA REALISTA</span>
+        <span id="menuTip">Dica: barulho atrai. Sempre.</span>
+      </div>
+    </div>
+    <div class="menu-side">
+      <div class="menu-side-card">
+        <div class="msc-label">ESTADO DO MUNDO</div>
+        <div class="msc-row"><span>Surto</span><strong>Dia 47</strong></div>
+        <div class="msc-row"><span>Região</span><strong>Vale Sereno</strong></div>
+        <div class="msc-row"><span>População</span><strong class="danger">—</strong></div>
+        <div class="msc-row"><span>Esperança</span><strong class="warn">Baixa</strong></div>
+      </div>
+      <div class="menu-side-quote">“Não é sobre vencer.<br>É sobre durar mais um dia.”</div>
+    </div>
+  </div>
+
+  <!-- ================= CRIAÇÃO DE PERSONAGEM ================= -->
+  <div id="charScreen" class="screen hidden">
+    <div class="screen-panel char-panel">
+      <header class="panel-header">
+        <button id="charBack" class="btn-ghost">← Voltar</button>
+        <div class="panel-title"><span class="kicker">NOVO SOBREVIVENTE</span><h2>Quem era você antes?</h2></div>
+        <div class="panel-spacer"></div>
+      </header>
+      <div class="char-body">
+        <div class="char-top">
+          <label class="field">
+            <span>Nome do personagem</span>
+            <input id="charName" maxlength="22" value="Sobrevivente" autocomplete="off" />
+          </label>
+          <div class="difficulty-wrap">
+            <span class="field-label">Dificuldade</span>
+            <div id="difficultyGrid" class="difficulty-grid"></div>
+          </div>
+        </div>
+        <div class="field-label">História / ocupação</div>
+        <div id="backgroundGrid" class="background-grid"></div>
+        <div class="char-footer">
+          <div class="char-summary" id="charSummary">Escolha um histórico para ver os detalhes.</div>
+          <button id="charStart" class="btn-primary big">Entrar no apocalipse →</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ================= CARREGAMENTO ================= -->
+  <div id="loadingScreen" class="screen hidden loading-screen">
+    <div class="loading-content">
+      <div class="loading-mark">☣</div>
+      <h2>Gerando o mundo</h2>
+      <p id="loadingText">Construindo cidades, estradas e memórias...</p>
+      <div class="loading-bar"><i id="loadingBar"></i></div>
+      <div class="loading-tip" id="loadingTip">Dica: portas fechadas compram segundos. Barricadas compram minutos.</div>
+    </div>
+  </div>
+
+  <!-- ================= MULTIJOGADOR ================= -->
+  <div id="mpScreen" class="screen hidden">
+    <div class="screen-panel mp-panel">
+      <header class="panel-header">
+        <button id="mpBack" class="btn-ghost">← Voltar</button>
+        <div class="panel-title"><span class="kicker">COOPERATIVO LOCAL</span><h2>Multijogador</h2></div>
+        <div class="panel-spacer"></div>
+      </header>
+      <div class="mp-body">
+        <div class="mp-info">
+          <div class="mp-badge">MODO ABAS</div>
+          <p>Abra o jogo em duas ou mais abas do mesmo navegador, use o mesmo código de sala e sobrevivam juntos no mesmo mundo.</p>
+          <ul>
+            <li>Mundo e clima compartilhados.</li>
+            <li>Zumbis sincronizados pelo anfitrião.</li>
+            <li>Reanime aliados caídos.</li>
+            <li>Chat de equipe com <kbd>Enter</kbd>.</li>
+          </ul>
+          <p class="mp-note">Sem servidor externo: o coop funciona entre abas do mesmo navegador. Não é jogo online entre dispositivos diferentes.</p>
+        </div>
+        <div class="mp-form">
+          <label class="field"><span>Seu nome</span><input id="mpName" maxlength="18" value="Sobrevivente" autocomplete="off" /></label>
+          <label class="field"><span>Sua história</span><select id="mpBackground"></select></label>
+          <label class="field"><span>Dificuldade (anfitrião)</span><select id="mpDifficulty"></select></label>
+          <button id="mpCreate" class="btn-primary">Criar sala</button>
+          <div class="or-divider"><span>ou</span></div>
+          <label class="field"><span>Código da sala</span><input id="mpCode" maxlength="6" placeholder="EX: A1B2" autocomplete="off" /></label>
+          <button id="mpJoin" class="btn-secondary">Entrar na sala</button>
+          <p id="mpError" class="form-error"></p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div id="lobbyScreen" class="screen hidden">
+    <div class="screen-panel lobby-panel">
+      <header class="panel-header">
+        <button id="lobbyLeave" class="btn-ghost">← Sair</button>
+        <div class="panel-title"><span class="kicker">SALA DE ESPERA</span><h2>Cooperativo</h2></div>
+        <div class="panel-spacer"></div>
+      </header>
+      <div class="lobby-body">
+        <div class="lobby-code">
+          <span>CÓDIGO DA SALA</span>
+          <strong id="lobbyCode">----</strong>
+          <button id="copyCode" class="btn-secondary small">Copiar</button>
+          <p>Abra outra aba e use este código para entrar.</p>
+        </div>
+        <div class="lobby-players">
+          <h3>Sobreviventes na sala</h3>
+          <ul id="lobbyPlayers"></ul>
+        </div>
+        <div class="lobby-actions">
+          <p id="lobbyHint" class="muted">Aguardando o anfitrião iniciar...</p>
+          <button id="lobbyStart" class="btn-primary big hidden">Iniciar sobrevivência →</button>
+        </div>
+        <div class="lobby-chat">
+          <div id="lobbyChatLog"></div>
+          <input id="lobbyChatInput" maxlength="90" placeholder="Conversar na sala..." />
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ================= INTRO ================= -->
+  <div id="introScreen" class="screen hidden intro-screen">
+    <div class="intro-panel">
+      <div class="intro-kicker">VALE SERENO · DIA 1 · 08:10</div>
+      <h2>O mundo não acabou com um estrondo.</h2>
+      <div class="intro-text">
+        <p>Acabou aos poucos: um boletim de notícias, um hospital lotado, um vizinho que não voltou. Três dias depois, as ruas estavam em silêncio. Quatro, vieram os gritos.</p>
+        <p>Você está em uma casa abandonada, com o que restou da sua vida em uma mochila. Lá fora, a cidade que você conhecia virou território de caça.</p>
+        <p><strong>Sobreviva.</strong> Não seja um herói. Heróis não duram uma semana.</p>
+      </div>
+      <div class="intro-goals">
+        <div class="ig-title">PRIMEIROS PASSOS</div>
+        <div class="ig-grid">
+          <span>💧 Encontre água</span><span>🍞 Encontre comida</span>
+          <span>🔪 Equipe uma arma</span><span>🪵 Barrique uma porta</span>
+        </div>
+      </div>
+      <div class="intro-actions">
+        <button id="introStart" class="btn-primary big">Começar a sobreviver</button>
+        <span class="intro-hint"><kbd>WASD</kbd> mover · <kbd>E</kbd> interagir · <kbd>I</kbd> mochila · <kbd>Esc</kbd> pausar</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- ================= INVENTÁRIO ================= -->
+  <div id="inventoryScreen" class="overlay hidden">
+    <div class="panel wide inv-panel">
+      <header class="panel-header">
+        <div class="panel-title"><span class="kicker">EQUIPAMENTO E SUPRIMENTOS</span><h2>Mochila</h2></div>
+        <div class="inv-weight" id="invWeight">0 / 14 kg</div>
+        <button class="btn-close" data-close="inventoryScreen">✕</button>
+      </header>
+      <div class="inv-toolbar" id="invFilters"></div>
+      <div class="inv-layout">
+        <div class="inv-list" id="invList"></div>
+        <aside class="inv-detail" id="invDetail"><div class="empty-state">Selecione um item para ver detalhes.</div></aside>
+      </div>
+      <footer class="inv-footer"><span>Clique para selecionar · Duplo clique para usar/equipar</span><span id="invCapacityHint">Carga afeta velocidade e fôlego.</span></footer>
+    </div>
+  </div>
+
+  <!-- ================= CONSTRUÇÃO / FABRICAÇÃO ================= -->
+  <div id="buildScreen" class="overlay hidden">
+    <div class="panel wide build-panel">
+      <header class="panel-header">
+        <div class="panel-title"><span class="kicker">TRANSFORME O MUNDO</span><h2>Construir & Fabricar</h2></div>
+        <div class="build-materials" id="buildMaterials"></div>
+        <button class="btn-close" data-close="buildScreen">✕</button>
+      </header>
+      <div class="tab-row">
+        <button class="tab active" data-build-tab="build">🔨 Construções</button>
+        <button class="tab" data-build-tab="craft">⚙️ Fabricação</button>
+        <span class="tab-hint">Estruturas podem ser desmontadas com <kbd>E</kbd>.</span>
+      </div>
+      <div id="buildGrid" class="build-grid"></div>
+      <div id="craftGrid" class="build-grid hidden"></div>
+    </div>
+  </div>
+
+  <!-- ================= HABILIDADES ================= -->
+  <div id="skillsScreen" class="overlay hidden">
+    <div class="panel wide skills-panel">
+      <header class="panel-header">
+        <div class="panel-title"><span class="kicker">APRENDIZADO PELA PRÁTICA</span><h2>Habilidades</h2></div>
+        <div id="playerLevel" class="player-level">Nível 1</div>
+        <button class="btn-close" data-close="skillsScreen">✕</button>
+      </header>
+      <div id="skillsGrid" class="skills-grid"></div>
+      <div id="statsGrid" class="stats-grid"></div>
+    </div>
+  </div>
+
+  <!-- ================= MAPA ================= -->
+  <div id="mapScreen" class="overlay hidden">
+    <div class="panel map-panel">
+      <header class="panel-header">
+        <div class="panel-title"><span class="kicker">RECONHECIMENTO DA REGIÃO</span><h2>Mapa</h2></div>
+        <div class="map-meta" id="mapMeta">Dia 1 · 08:10</div>
+        <button class="btn-close" data-close="mapScreen">✕</button>
+      </header>
+      <div class="map-wrap"><canvas id="mapCanvas" width="900" height="760"></canvas></div>
+      <footer class="map-footer"><span>O mapa revela apenas o que você já explorou.</span><span>🏥 locais-chave · • ruas · <span class="legend-you">▲ você</span></span></footer>
+    </div>
+  </div>
+
+  <!-- ================= SAQUE ================= -->
+  <div id="lootScreen" class="overlay hidden">
+    <div class="panel loot-panel">
+      <header class="panel-header">
+        <div class="panel-title"><span class="kicker">REVISTANDO</span><h2 id="lootTitle">Recipiente</h2></div>
+        <button class="btn-close" data-close="lootScreen">✕</button>
+      </header>
+      <div class="loot-layout">
+        <section class="loot-column">
+          <div class="loot-head"><span>Conteúdo</span><button id="takeAll" class="btn-secondary small">Pegar tudo</button></div>
+          <div id="lootItems" class="loot-items"></div>
+        </section>
+        <section class="loot-column player-side">
+          <div class="loot-head"><span>Sua mochila <em id="lootWeight"></em></span></div>
+          <div id="lootPlayerItems" class="loot-items"></div>
+        </section>
+      </div>
+      <footer class="loot-footer"><span id="lootHint">Leve apenas o necessário. Peso importa.</span><span class="muted">Esc fecha</span></footer>
+    </div>
+  </div>
+
+  <!-- ================= DIÁLOGO ================= -->
+  <div id="dialogScreen" class="overlay hidden">
+    <div class="panel dialog-panel">
+      <header class="panel-header">
+        <div class="npc-avatar" id="npcAvatar">🧑</div>
+        <div class="panel-title"><span class="kicker" id="npcPersonality">SOBREVIVENTE</span><h2 id="npcName">Nome</h2></div>
+        <button class="btn-close" data-close="dialogScreen">✕</button>
+      </header>
+      <div class="dialog-body">
+        <p class="npc-line" id="npcLine">...</p>
+        <p class="npc-greeting" id="npcGreeting">...</p>
+      </div>
+      <div class="dialog-actions">
+        <button id="npcTalk" class="btn-secondary">💬 Conversar</button>
+        <button id="npcTrade" class="btn-secondary">🤝 Negociar</button>
+        <button id="npcFollow" class="btn-secondary">🧭 Pedir para acompanhar</button>
+        <button class="btn-ghost" data-close="dialogScreen">Adeus</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- ================= TROCA ================= -->
+  <div id="tradeScreen" class="overlay hidden">
+    <div class="panel trade-panel">
+      <header class="panel-header">
+        <div class="panel-title"><span class="kicker">NEGOCIAÇÃO</span><h2>Trocar com <span id="tradeNpcName">Sobrevivente</span></h2></div>
+        <button class="btn-close" data-close="tradeScreen">✕</button>
+      </header>
+      <div class="trade-layout">
+        <section class="trade-column">
+          <h3>Ofertas dele</h3>
+          <div id="tradeOffers" class="trade-list"></div>
+        </section>
+        <div class="trade-center">
+          <div id="tradeArrow">⇄</div>
+          <p id="tradeStatus">Selecione uma oferta e um item seu.</p>
+          <button id="tradeConfirm" class="btn-primary" disabled>Confirmar troca</button>
+          <small>O valor do seu item deve cobrir ao menos 65% do valor pedido.</small>
+        </div>
+        <section class="trade-column">
+          <h3>Seu inventário</h3>
+          <div id="tradePlayerItems" class="trade-list"></div>
+        </section>
+      </div>
+    </div>
+  </div>
+
+  <!-- ================= PAUSA ================= -->
+  <div id="pauseScreen" class="overlay hidden pause-screen">
+    <div class="panel pause-panel">
+      <header class="panel-header">
+        <div class="panel-title"><span class="kicker">O MUNDO ESPERA</span><h2>Pausa</h2></div>
+        <button class="btn-close" data-close="pauseScreen">✕</button>
+      </header>
+      <div class="pause-body">
+        <div class="pause-stats" id="pauseStats"></div>
+        <div class="pause-actions">
+          <button id="pauseResume" class="btn-primary big">Continuar</button>
+          <button id="pauseSave" class="btn-secondary">💾 Salvar jogo</button>
+          <button id="pauseMute" class="btn-secondary">🔊 Som: ligado</button>
+          <button id="pauseHow" class="btn-secondary">📖 Como jogar</button>
+          <button id="pauseMenu" class="btn-ghost">Sair para o menu</button>
+        </div>
+        <div class="pause-tip" id="pauseTip"></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ================= MORTE ================= -->
+  <div id="deathScreen" class="screen hidden death-screen">
+    <div class="death-panel">
+      <div class="death-mark">☠</div>
+      <h2>Você não sobreviveu.</h2>
+      <p id="deathCause" class="death-cause">Você foi morto por zumbis.</p>
+      <div class="death-stats" id="deathStats"></div>
+      <div class="death-quote" id="deathQuote">“O mundo não perdoa. Ele só continua.”</div>
+      <div class="death-actions">
+        <button id="deathRetry" class="btn-primary big">Tentar novamente</button>
+        <button id="deathMenu" class="btn-ghost">Voltar ao menu</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- ================= NOTA ================= -->
+  <div id="noteScreen" class="overlay hidden">
+    <div class="note-paper">
+      <div class="note-pin">📌</div>
+      <p id="noteText">...</p>
+      <button class="btn-secondary small" data-close="noteScreen">Guardar</button>
+    </div>
+  </div>
+
+  <!-- ================= CONFIRMAÇÃO DE SONO ================= -->
+  <div id="sleepScreen" class="overlay hidden">
+    <div class="panel sleep-panel">
+      <div class="sleep-icon">🛏️</div>
+      <h2>Dormir?</h2>
+      <p>O tempo vai passar. Fome, sede e infecção continuam correndo. Zumbis próximos podem impedir o descanso.</p>
+      <div class="sleep-actions">
+        <button id="sleepConfirm" class="btn-primary">Dormir</button>
+        <button id="sleepCancel" class="btn-ghost">Agora não</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- ================= COMO JOGAR ================= -->
+  <div id="howScreen" class="overlay hidden">
+    <div class="panel wide how-panel">
+      <header class="panel-header">
+        <div class="panel-title"><span class="kicker">MANUAL DE SOBREVIVÊNCIA</span><h2>Como jogar</h2></div>
+        <button class="btn-close" data-close="howScreen">✕</button>
+      </header>
+      <div class="how-body">
+        <section>
+          <h3>Controles</h3>
+          <div class="control-grid">
+            <span><kbd>WASD</kbd> Mover</span><span><kbd>Shift</kbd> Correr</span>
+            <span><kbd>Ctrl</kbd> Modo furtivo</span><span><kbd>Mouse</kbd> Mirar / atacar</span>
+            <span><kbd>E</kbd> Interagir</span><span><kbd>F</kbd> Entrar/sair do veículo</span>
+            <span><kbd>I</kbd>/<kbd>Tab</kbd> Mochila</span><span><kbd>B</kbd> Construir</span>
+            <span><kbd>K</kbd> Habilidades</span><span><kbd>M</kbd> Mapa</span>
+            <span><kbd>Q</kbd> Lanterna</span><span><kbd>R</kbd> Abastecer/consertar</span>
+            <span><kbd>G</kbd> Porta-malas</span><span><kbd>1–4</kbd> Usar item rápido</span>
+            <span><kbd>Enter</kbd> Chat (coop)</span><span><kbd>Esc</kbd> Pausa</span>
+          </div>
+        </section>
+        <section>
+          <h3>Regras do mundo</h3>
+          <ul class="rules-list">
+            <li><strong>Barulho atrai.</strong> Armas de fogo podem chamar uma horda inteira.</li>
+            <li><strong>Comida e água acabam.</strong> Ferva água suspeita. Cozinhe carne crua.</li>
+            <li><strong>Ferimentos importam.</strong> Sangramento e infecção matam devagar.</li>
+            <li><strong>Zumbis quebram barricadas.</strong> Reforce portas e janelas. Tenha uma rota de fuga.</li>
+            <li><strong>Noite e clima mudam tudo.</strong> Neblina esconde ameaças; chuva abafa sons.</li>
+            <li><strong>Habilidades sobem com uso.</strong> Construa, cozinhe, conserte, lute, ande furtivamente.</li>
+            <li><strong>Veículos precisam de combustível e peças.</strong> Bater tem consequências.</li>
+            <li><strong>NPCs têm objetivos.</strong> Alguns trocam, outros ajudam, outros atiram.</li>
+          </ul>
+        </section>
+        <section>
+          <h3>Primeiros passos</h3>
+          <ol class="rules-list">
+            <li>Feche a porta e vasculhe a casa onde começou.</li>
+            <li>Beba e coma algo antes de sair.</li>
+            <li>Equipe uma arma e evite lutar contra grupos.</li>
+            <li>Encontre uma mochila para carregar mais.</li>
+            <li>Barrique uma porta e acenda uma fogueira antes da noite.</li>
+          </ol>
+        </section>
+      </div>
+    </div>
+  </div>
+
+  <!-- ================= TOUCH ================= -->
+  <div id="touchControls" class="hidden">
+    <div id="joystick" class="joystick"><div id="joystickKnob" class="joystick-knob"></div></div>
+    <div class="touch-actions">
+      <button data-touch="attack" class="touch-btn attack">⚔️</button>
+      <button data-touch="interact" class="touch-btn interact">E</button>
+      <button data-touch="sprint" class="touch-btn small">🏃</button>
+      <button data-touch="sneak" class="touch-btn small">🥷</button>
+      <button data-touch="inventory" class="touch-btn small">🎒</button>
+      <button data-touch="build" class="touch-btn small">🔨</button>
+      <button data-touch="flashlight" class="touch-btn small">🔦</button>
+      <button data-touch="pause" class="touch-btn small">⏸️</button>
+    </div>
+  </div>
+
+  <div id="fadeOverlay" class="fade-overlay"></div>
+</div>
+<script type="module" src="js/main.js"></script>
+</body>
+</html>
