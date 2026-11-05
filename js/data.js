@@ -41,19 +41,19 @@ export const ITEMS = {
   cigarro: { name: 'Cigarro', icon: '🚬', type: 'misc', weight: 0.02, stack: 5, value: 4, morale: 10, health: -1, desc: 'Um vício que acalma os nervos.' },
 
   // ---------- Armas corpo a corpo ----------
-  faca: { name: 'Faca de cozinha', icon: '🔪', type: 'weapon', weight: 0.4, stack: 1, value: 12, damage: 18, range: 36, cooldown: 0.42, noise: 40, durability: 90, arc: 1.5, desc: 'Silenciosa e letal de perto. Frágil contra grupos.' },
-  bastao: { name: 'Bastão de madeira', icon: '🪵', type: 'weapon', weight: 1.0, stack: 1, value: 8, damage: 14, range: 42, cooldown: 0.5, noise: 70, durability: 130, arc: 1.9, desc: 'Melhor que os punhos, mas não muito.' },
-  cano: { name: 'Cano de ferro', icon: '🔩', type: 'weapon', weight: 2.0, stack: 1, value: 15, damage: 23, range: 46, cooldown: 0.72, noise: 95, durability: 170, arc: 1.8, desc: 'Pesado e confiável. Atordoa zumbis.' },
-  taco: { name: 'Taco de beisebol', icon: '🏏', type: 'weapon', weight: 0.9, stack: 1, value: 14, damage: 20, range: 48, cooldown: 0.58, noise: 80, durability: 150, arc: 2.0, desc: 'Alcance decente. Cuidado com o barulho.' },
-  machado: { name: 'Machado', icon: '🪓', type: 'weapon', weight: 2.3, stack: 1, value: 26, damage: 34, range: 44, cooldown: 0.9, noise: 120, durability: 160, arc: 1.7, desc: 'Ferramenta e arma. Abre crânios e portas.' },
-  pe_de_cabra: { name: 'Pé de cabra', icon: '🪛', type: 'weapon', weight: 2.1, stack: 1, value: 18, damage: 24, range: 44, cooldown: 0.7, noise: 110, durability: 220, arc: 1.6, desc: 'Serve para arrombar portas e esmagar ameaças.' },
-  machete: { name: 'Machete', icon: '🗡️', type: 'weapon', weight: 1.1, stack: 1, value: 32, damage: 28, range: 42, cooldown: 0.5, noise: 55, durability: 130, arc: 1.8, desc: 'Corta mato, carne e o que aparecer.' },
+  faca: { name: 'Faca de cozinha', icon: '🔪', type: 'weapon', weapon: true, weight: 0.4, stack: 1, value: 12, damage: 18, range: 36, cooldown: 0.42, noise: 40, durability: 90, arc: 1.5, desc: 'Silenciosa e letal de perto. Frágil contra grupos.' },
+  bastao: { name: 'Bastão de madeira', icon: '🪵', type: 'weapon', weapon: true, weight: 1.0, stack: 1, value: 8, damage: 14, range: 42, cooldown: 0.5, noise: 70, durability: 130, arc: 1.9, desc: 'Melhor que os punhos, mas não muito.' },
+  cano: { name: 'Cano de ferro', icon: '🔩', type: 'weapon', weapon: true, weight: 2.0, stack: 1, value: 15, damage: 23, range: 46, cooldown: 0.72, noise: 95, durability: 170, arc: 1.8, desc: 'Pesado e confiável. Atordoa zumbis.' },
+  taco: { name: 'Taco de beisebol', icon: '🏏', type: 'weapon', weapon: true, weight: 0.9, stack: 1, value: 14, damage: 20, range: 48, cooldown: 0.58, noise: 80, durability: 150, arc: 2.0, desc: 'Alcance decente. Cuidado com o barulho.' },
+  machado: { name: 'Machado', icon: '🪓', type: 'weapon', weapon: true, weight: 2.3, stack: 1, value: 26, damage: 34, range: 44, cooldown: 0.9, noise: 120, durability: 160, arc: 1.7, desc: 'Ferramenta e arma. Abre crânios e portas.' },
+  pe_de_cabra: { name: 'Pé de cabra', icon: '🪛', type: 'weapon', weapon: true, weight: 2.1, stack: 1, value: 18, damage: 24, range: 44, cooldown: 0.7, noise: 110, durability: 220, arc: 1.6, desc: 'Serve para arrombar portas e esmagar ameaças.' },
+  machete: { name: 'Machete', icon: '🗡️', type: 'weapon', weapon: true, weight: 1.1, stack: 1, value: 32, damage: 28, range: 42, cooldown: 0.5, noise: 55, durability: 130, arc: 1.8, desc: 'Corta mato, carne e o que aparecer.' },
   martelo: { name: 'Martelo', icon: '🔨', type: 'tool', weapon: true, weight: 0.8, stack: 1, value: 12, damage: 12, range: 36, cooldown: 0.55, noise: 90, durability: 200, arc: 1.4, desc: 'Ferramenta de construção. Também quebra dentes.' },
 
   // ---------- Armas de fogo ----------
-  pistola: { name: 'Pistola .380', icon: '🔫', type: 'weapon', weight: 0.9, stack: 1, value: 60, damage: 38, range: 460, cooldown: 0.32, noise: 950, durability: 400, gun: true, ammo: 'municao_pistola', accuracy: 0.92, desc: 'Barulhenta. Cada tiro é um convite para a horda.' },
-  espingarda: { name: 'Espingarda', icon: '🔫', type: 'weapon', weight: 3.2, stack: 1, value: 90, damage: 78, range: 330, cooldown: 0.95, noise: 1100, durability: 380, gun: true, ammo: 'municao_espingarda', pellets: 6, spread: 0.22, desc: 'Devastadora de perto. O estrondo atravessa quarteirões.' },
-  rifle: { name: 'Rifle de caça', icon: '🎯', type: 'weapon', weight: 3.6, stack: 1, value: 120, damage: 62, range: 680, cooldown: 0.7, noise: 1200, durability: 420, gun: true, ammo: 'municao_rifle', accuracy: 0.97, desc: 'Alcance longo e precisão. Não serve para multidões.' },
+  pistola: { name: 'Pistola .380', icon: '🔫', type: 'weapon', weapon: true, weight: 0.9, stack: 1, value: 60, damage: 38, range: 460, cooldown: 0.32, noise: 950, durability: 400, gun: true, ammo: 'municao_pistola', accuracy: 0.92, desc: 'Barulhenta. Cada tiro é um convite para a horda.' },
+  espingarda: { name: 'Espingarda', icon: '🔫', type: 'weapon', weapon: true, weight: 3.2, stack: 1, value: 90, damage: 78, range: 330, cooldown: 0.95, noise: 1100, durability: 380, gun: true, ammo: 'municao_espingarda', pellets: 6, spread: 0.22, desc: 'Devastadora de perto. O estrondo atravessa quarteirões.' },
+  rifle: { name: 'Rifle de caça', icon: '🎯', type: 'weapon', weapon: true, weight: 3.6, stack: 1, value: 120, damage: 62, range: 680, cooldown: 0.7, noise: 1200, durability: 420, gun: true, ammo: 'municao_rifle', accuracy: 0.97, desc: 'Alcance longo e precisão. Não serve para multidões.' },
   municao_pistola: { name: 'Munição .380', icon: '🔸', type: 'ammo', weight: 0.015, stack: 40, value: 3, desc: 'Doze cartuchos por caixa.' },
   municao_espingarda: { name: 'Cartuchos 12', icon: '🔸', type: 'ammo', weight: 0.03, stack: 24, value: 5, desc: 'Pesados e barulhentos.' },
   municao_rifle: { name: 'Munição .308', icon: '🔸', type: 'ammo', weight: 0.025, stack: 20, value: 6, desc: 'Para o rifle de caça.' },
@@ -173,73 +173,448 @@ export const LOOT_TABLES = {
     ['municao_pistola', 0.5, 8, 20], ['municao_espingarda', 0.35, 4, 12], ['colete', 0.3, 1, 1],
     ['combustivel', 0.3, 1, 1], ['chocolate', 0.3, 1, 2], ['radio', 0.25, 1, 1],
   ],
+  roupas: [
+    ['casaco', 0.3, 1, 1], ['capa_chuva', 0.25, 1, 1], ['botas', 0.22, 1, 1], ['luvas', 0.25, 1, 1],
+    ['mochila_pequena', 0.18, 1, 1], ['mochila_grande', 0.08, 1, 1], ['colete', 0.08, 1, 1], ['foto', 0.15, 1, 1],
+  ],
+  restaurante: [
+    ['agua', 0.35, 1, 2], ['enlatado', 0.35, 1, 2], ['macarrao', 0.25, 1, 2], ['panela', 0.18, 1, 1],
+    ['carne_crua', 0.12, 1, 1], ['cafe', 0.2, 1, 1], ['suco', 0.2, 1, 1], ['isqueiro', 0.2, 1, 1],
+  ],
+  eletronicos: [
+    ['pilha', 0.5, 1, 4], ['radio', 0.2, 1, 1], ['lanterna', 0.25, 1, 1], ['relogio', 0.15, 1, 1],
+    ['joias', 0.05, 1, 1], ['corda', 0.15, 1, 1], ['mapa', 0.1, 1, 1],
+  ],
+  livraria: [
+    ['papel', 0.35, 1, 2], ['mapa', 0.2, 1, 1], ['foto', 0.2, 1, 1], ['mochila_pequena', 0.12, 1, 1],
+    ['barra', 0.15, 1, 1], ['analgesico', 0.1, 1, 1], ['isqueiro', 0.15, 1, 1],
+  ],
+  clinica: [
+    ['bandagem', 0.6, 1, 3], ['kit_medico', 0.25, 1, 1], ['antibiotico', 0.35, 1, 2], ['analgesico', 0.45, 1, 2],
+    ['alcool', 0.35, 1, 2], ['sabonete', 0.2, 1, 1],
+  ],
+  bombeiros: [
+    ['bandagem', 0.4, 1, 2], ['kit_medico', 0.2, 1, 1], ['machado', 0.2, 1, 1], ['corda', 0.4, 1, 2],
+    ['lona', 0.35, 1, 2], ['capacete', 0.15, 1, 1], ['lanterna', 0.25, 1, 1], ['ferramentas', 0.2, 1, 1],
+  ],
+  prefeitura: [
+    ['radio', 0.2, 1, 1], ['mapa', 0.25, 1, 1], ['joias', 0.08, 1, 1], ['relogio', 0.15, 1, 1],
+    ['papel', 0.3, 1, 2], ['corda', 0.2, 1, 1], ['pilha', 0.2, 1, 2], ['foto', 0.1, 1, 1],
+  ],
+  correios: [
+    ['corda', 0.3, 1, 2], ['lona', 0.25, 1, 2], ['papel', 0.3, 1, 2], ['mochila_pequena', 0.15, 1, 1],
+    ['pilha', 0.25, 1, 3], ['barra', 0.2, 1, 2], ['agua', 0.2, 1, 1], ['mapa', 0.1, 1, 1],
+  ],
+  hotel: [
+    ['agua', 0.35, 1, 2], ['barra', 0.3, 1, 2], ['chocolate', 0.2, 1, 2], ['cigarro', 0.2, 1, 2],
+    ['relogio', 0.15, 1, 1], ['joias', 0.08, 1, 1], ['bandagem', 0.2, 1, 1], ['foto', 0.2, 1, 1],
+    ['sabonete', 0.25, 1, 1],
+  ],
+  fabrica: [
+    ['metal', 0.55, 2, 5], ['pecas', 0.35, 1, 2], ['ferramentas', 0.2, 1, 1], ['combustivel', 0.2, 1, 1],
+    ['corda', 0.25, 1, 2], ['lona', 0.2, 1, 1], ['martelo', 0.15, 1, 1], ['machado', 0.08, 1, 1],
+  ],
+  armazem: [
+    ['madeira', 0.5, 3, 7], ['metal', 0.45, 2, 4], ['pregos', 0.45, 6, 16], ['combustivel', 0.15, 1, 1],
+    ['lona', 0.3, 1, 2], ['corda', 0.3, 1, 2], ['caixa', 0.0, 1, 1], ['pedra', 0.2, 1, 3],
+  ],
+  estacao: [
+    ['mapa', 0.2, 1, 1], ['radio', 0.15, 1, 1], ['pilha', 0.3, 1, 3], ['relogio', 0.15, 1, 1],
+    ['combustivel', 0.15, 1, 1], ['agua', 0.25, 1, 2], ['barra', 0.25, 1, 2], ['corda', 0.2, 1, 1],
+  ],
+  ferrovelho: [
+    ['metal', 0.7, 2, 6], ['pecas', 0.5, 1, 3], ['chave_inglesa', 0.3, 1, 1], ['martelo', 0.25, 1, 1],
+    ['cano', 0.2, 1, 1], ['machete', 0.1, 1, 1], ['combustivel', 0.15, 1, 1], ['pilha', 0.2, 1, 2],
+  ],
+  usina: [
+    ['metal', 0.5, 2, 5], ['pilha', 0.4, 1, 4], ['ferramentas', 0.25, 1, 1], ['combustivel', 0.2, 1, 1],
+    ['corda', 0.25, 1, 2], ['radio', 0.1, 1, 1], ['lanterna', 0.2, 1, 1],
+  ],
+  cemiterio: [
+    ['foto', 0.35, 1, 1], ['joias', 0.12, 1, 1], ['relogio', 0.12, 1, 1], ['bandagem', 0.15, 1, 1],
+    ['analgesico', 0.15, 1, 1], ['papel', 0.2, 1, 2], ['isqueiro', 0.15, 1, 1],
+  ],
+  prisao: [
+    ['algemas', 0.3, 1, 1], ['bastao', 0.25, 1, 1], ['pistola', 0.08, 1, 1], ['municao_pistola', 0.2, 4, 10],
+    ['bandagem', 0.3, 1, 2], ['racao', 0.3, 1, 2], ['corda', 0.25, 1, 1], ['radio', 0.15, 1, 1],
+  ],
+  aeroporto: [
+    ['mapa', 0.25, 1, 1], ['radio', 0.2, 1, 1], ['combustivel', 0.25, 1, 1], ['kit_medico', 0.2, 1, 1],
+    ['racao', 0.3, 1, 2], ['agua', 0.35, 1, 2], ['pilha', 0.25, 1, 3], ['mochila_grande', 0.1, 1, 1],
+  ],
+  base_militar: [
+    ['rifle', 0.25, 1, 1], ['municao_rifle', 0.5, 8, 22], ['pistola', 0.35, 1, 1], ['municao_pistola', 0.5, 10, 28],
+    ['colete', 0.4, 1, 1], ['capacete', 0.4, 1, 1], ['racao', 0.5, 1, 3], ['kit_medico', 0.35, 1, 1],
+    ['mochila_grande', 0.25, 1, 1], ['radio', 0.3, 1, 1],
+  ],
+  universidade: [
+    ['mochila_pequena', 0.25, 1, 1], ['mapa', 0.25, 1, 1], ['papel', 0.35, 1, 2], ['radio', 0.15, 1, 1],
+    ['analgesico', 0.2, 1, 2], ['pilha', 0.25, 1, 3], ['lanterna', 0.15, 1, 1], ['cafe', 0.15, 1, 1],
+  ],
+  biblioteca: [
+    ['papel', 0.4, 1, 3], ['mapa', 0.3, 1, 1], ['foto', 0.15, 1, 1], ['radio', 0.1, 1, 1],
+    ['mochila_pequena', 0.1, 1, 1], ['isqueiro', 0.15, 1, 1],
+  ],
+
 };
 
 ITEMS.leite = { name: 'Leite longa vida', icon: '🥛', type: 'drink', weight: 1.0, stack: 2, value: 5, thirst: 26, hunger: 8, desc: 'Pode estar talhado, mas ainda desce.' };
 ITEMS.algemas = { name: 'Algemas', icon: '⛓️', type: 'misc', weight: 0.5, stack: 2, value: 8, desc: 'Sem utilidade clara. Talvez para prender alguém.' };
 
 export const BUILDINGS = {
+  // ---------------- Residencial ----------------
   casa: {
-    label: ['Casa', 'Residência', 'Sobrado', 'Casa dos fundos'],
-    floor: 7, wall: 9, size: [9, 8], weight: 30,
+    label: ['Casa', 'Residência', 'Casa de bairro', 'Moradia simples'],
+    floor: 7, size: [9, 8], weight: 30, icon: '🏠', category: 'residencial', floors: 1, rooms: 3,
     containers: [['geladeira', 1], ['cozinha', 1], ['armario', 1], ['caixa', 0.7]],
-    beds: 1, partitions: 1, loot: 1,
+    beds: 1, partitions: 1, loot: 1, furniture: ['table', 'chair', 'sofa', 'shelf'],
+    desc: 'Uma casa de família, agora vazia. Cheira a poeira e a algo que estragou.',
+  },
+  casa_pequena: {
+    label: ['Casa pequena', 'Casebre', 'Casa de fundos', 'Kitnet'],
+    floor: 7, size: [7, 6], weight: 22, icon: '🏠', category: 'residencial', floors: 1, rooms: 2,
+    containers: [['geladeira', 1], ['armario', 1], ['caixa', 0.5]],
+    beds: 1, partitions: 0, loot: 0.85, furniture: ['table', 'chair', 'sofa'],
+    desc: 'Poucos cômodos, poucos pertences. Alguém saiu às pressas.',
+  },
+  casa_familiar: {
+    label: ['Casa familiar', 'Sobrado simples', 'Residência de esquina', 'Casa com quintal'],
+    floor: 7, size: [11, 9], weight: 18, icon: '🏡', category: 'residencial', floors: 2, rooms: 4,
+    containers: [['geladeira', 1], ['cozinha', 1], ['armario', 2], ['caixa', 1], ['ferramentas', 0.4]],
+    beds: 2, partitions: 2, loot: 1.05, furniture: ['table', 'chair', 'sofa', 'shelf', 'desk'],
+    desc: 'Uma família inteira viveu aqui. Os retratos continuam nas paredes.',
+  },
+  sobrado: {
+    label: ['Sobrado', 'Casa de dois andares', 'Residência alta', 'Sobrado colonial'],
+    floor: 7, size: [11, 10], weight: 12, icon: '🏘️', category: 'residencial', floors: 2, rooms: 5,
+    containers: [['geladeira', 1], ['cozinha', 1], ['armario', 2], ['caixa', 1], ['armario', 1]],
+    beds: 2, partitions: 2, loot: 1.15, furniture: ['table', 'chair', 'sofa', 'shelf', 'desk'],
+    desc: 'Escadas rangem no silêncio. O andar de cima parece mais escuro.',
+  },
+  mansao: {
+    label: ['Mansão', 'Casa de luxo', 'Residência nobre', 'Casarão'],
+    floor: 7, size: [15, 12], weight: 5, icon: '🏰', category: 'residencial', floors: 2, rooms: 6,
+    containers: [['geladeira', 2], ['cozinha', 2], ['armario', 3], ['caixa', 1], ['ferramentas', 0.3]],
+    beds: 3, partitions: 3, loot: 1.35, furniture: ['table', 'chair', 'sofa', 'shelf', 'desk'],
+    desc: 'Grades altas, portas largas e o silêncio de quem tinha tudo a perder.',
+  },
+  casa_moderna: {
+    label: ['Casa moderna', 'Residência minimalista', 'Casa de condomínio', 'Casa nova'],
+    floor: 8, size: [11, 9], weight: 9, icon: '🏠', category: 'residencial', floors: 2, rooms: 4,
+    containers: [['geladeira', 1], ['cozinha', 1], ['armario', 1], ['caixa', 1], ['eletronicos', 0.5]],
+    beds: 2, partitions: 2, loot: 1.15, furniture: ['table', 'chair', 'sofa', 'desk'],
+    desc: 'Vidro, concreto e uma vista que já não vale nada.',
+  },
+  casa_antiga: {
+    label: ['Casa antiga', 'Casarão abandonado', 'Casa de madeira', 'Casa tombada'],
+    floor: 7, size: [9, 8], weight: 12, icon: '🏚️', category: 'residencial', floors: 1, rooms: 3,
+    containers: [['armario', 2], ['cozinha', 1], ['caixa', 1], ['ferramentas', 0.3]],
+    beds: 1, partitions: 1, loot: 0.8, furniture: ['table', 'chair', 'sofa', 'shelf'],
+    desc: 'Madeira apodrecida e janelas que não fecham mais.',
+  },
+  cabana: {
+    label: ['Cabana', 'Chalé', 'Casa rural', 'Casebre da roça'],
+    floor: 7, size: [7, 6], weight: 10, icon: '🛖', category: 'rural', floors: 1, rooms: 2,
+    containers: [['cozinha', 1], ['armario', 1], ['ferramentas', 0.6]],
+    beds: 1, partitions: 0, loot: 0.9, furniture: ['table', 'chair', 'shelf'],
+    desc: 'Um refúgio de madeira longe demais de qualquer socorro.',
+  },
+  chale: {
+    label: ['Chalé da serra', 'Cabana de madeira', 'Refúgio florestal', 'Chalé isolado'],
+    floor: 7, size: [8, 7], weight: 7, icon: '🏕️', category: 'rural', floors: 1, rooms: 2,
+    containers: [['cozinha', 1], ['armario', 1], ['ferramentas', 0.7], ['caixa', 0.5]],
+    beds: 1, partitions: 1, loot: 0.95, furniture: ['table', 'chair', 'sofa', 'shelf'],
+    desc: 'Cheiro de lenha e animais. Alguém pode ter voltado.',
   },
   apartamento: {
     label: ['Apartamentos', 'Edifício Aurora', 'Bloco residencial', 'Prédio São Jorge'],
-    floor: 8, wall: 9, size: [13, 10], weight: 12,
+    floor: 8, size: [13, 10], weight: 14, icon: '🏢', category: 'residencial', floors: 3, rooms: 5,
     containers: [['geladeira', 2], ['cozinha', 2], ['armario', 2], ['caixa', 1]],
-    beds: 3, partitions: 2, loot: 1.2,
+    beds: 3, partitions: 2, loot: 1.2, furniture: ['table', 'chair', 'sofa', 'shelf', 'desk'],
+    desc: 'Corredores longos, portas iguais e vizinhos que nunca mais responderam.',
   },
+  condominio: {
+    label: ['Condomínio', 'Condomínio fechado', 'Vila residencial', 'Bloco de apartamentos'],
+    floor: 8, size: [16, 12], weight: 6, icon: '🏙️', category: 'residencial', floors: 3, rooms: 7,
+    containers: [['geladeira', 3], ['cozinha', 3], ['armario', 3], ['caixa', 2]],
+    beds: 4, partitions: 3, loot: 1.3, furniture: ['table', 'chair', 'sofa', 'shelf', 'desk'],
+    desc: 'Muros altos, câmeras mortas e uma piscina cheia de folhas.',
+  },
+  predio: {
+    label: ['Prédio residencial', 'Edifício Central', 'Torre residencial', 'Prédio de esquina'],
+    floor: 8, size: [14, 12], weight: 7, icon: '🏢', category: 'residencial', floors: 4, rooms: 6,
+    containers: [['geladeira', 2], ['cozinha', 2], ['armario', 2], ['caixa', 2]],
+    beds: 3, partitions: 2, loot: 1.2, furniture: ['table', 'chair', 'sofa', 'desk'],
+    desc: 'Quatro andares de vidas interrompidas. O elevador não abre mais.',
+  },
+
+  // ---------------- Comércio ----------------
   mercado: {
     label: ['Mercado', 'Mercado Bom Preço', 'Supermercado', 'Armazém Central', 'Mercearia'],
-    floor: 8, wall: 9, size: [13, 10], weight: 8,
+    floor: 8, size: [13, 10], weight: 9, icon: '🛒', category: 'comercial', floors: 1, rooms: 2,
     containers: [['mercado', 3], ['geladeira', 1], ['caixa', 1]], beds: 0, partitions: 1, loot: 1.7,
+    furniture: ['shelf', 'counter'], desc: 'Prateleiras reviradas. O que não foi saqueado, apodreceu.',
   },
-  hospital: {
-    label: ['Hospital', 'Hospital São Rafael', 'Clínica Central', 'Posto de saúde'],
-    floor: 8, wall: 9, size: [15, 12], weight: 4,
-    containers: [['farmacia', 3], ['armario', 2], ['geladeira', 1]], beds: 4, partitions: 2, loot: 1.6,
+  mercearia: {
+    label: ['Mercearia', 'Mercadinho', 'Loja de conveniência', 'Armazém do bairro'],
+    floor: 8, size: [8, 7], weight: 12, icon: '🏪', category: 'comercial', floors: 1, rooms: 2,
+    containers: [['mercado', 2], ['geladeira', 1]], beds: 0, partitions: 1, loot: 1.35,
+    furniture: ['shelf', 'counter'], desc: 'Um mercadinho de esquina, saqueado às pressas.',
   },
-  escola: {
-    label: ['Escola', 'Escola Municipal', 'Colégio Estadual', 'Creche'],
-    floor: 7, wall: 9, size: [14, 11], weight: 5,
-    containers: [['escola', 3], ['caixa', 1], ['armario', 1]], beds: 0, partitions: 2, loot: 1.2,
+  loja_roupas: {
+    label: ['Loja de roupas', 'Boutique', 'Loja de departamentos', 'Alfaiataria'],
+    floor: 8, size: [10, 8], weight: 8, icon: '👕', category: 'comercial', floors: 1, rooms: 2,
+    containers: [['roupas', 2], ['armario', 1], ['caixa', 0.5]], beds: 0, partitions: 1, loot: 1.1,
+    furniture: ['shelf', 'counter'], desc: 'Manequins nus e araras derrubadas. Ninguém se importa mais com moda.',
   },
-  delegacia: {
-    label: ['Delegacia', 'Delegacia Central', 'Posto policial', 'Departamento de Polícia'],
-    floor: 8, wall: 9, size: [12, 10], weight: 3,
-    containers: [['policia', 2], ['armario', 1], ['caixa', 1]], beds: 1, partitions: 1, loot: 1.5,
+  restaurante: {
+    label: ['Restaurante', 'Cantina', 'Churrascaria', 'Casa de massas'],
+    floor: 7, size: [10, 8], weight: 8, icon: '🍽️', category: 'comercial', floors: 1, rooms: 3,
+    containers: [['restaurante', 2], ['geladeira', 1], ['cozinha', 1]], beds: 0, partitions: 1, loot: 1.2,
+    furniture: ['table', 'chair', 'counter'], desc: 'Pratos ainda na mesa. O jantar nunca terminou.',
   },
-  quartel: {
-    label: ['Quartel', 'Quartel da Guarda', 'Base militar', 'Posto do Exército'],
-    floor: 12, wall: 9, size: [14, 11], weight: 2,
-    containers: [['quartel', 2], ['armario_militar', 2], ['caixa', 2]], beds: 2, partitions: 1, loot: 1.9,
+  lanchonete: {
+    label: ['Lanchonete', 'Padaria', 'Cafeteria', 'Fast-food'],
+    floor: 8, size: [8, 7], weight: 10, icon: '🍔', category: 'comercial', floors: 1, rooms: 2,
+    containers: [['restaurante', 1], ['geladeira', 1], ['cozinha', 1]], beds: 0, partitions: 0, loot: 1.1,
+    furniture: ['table', 'chair', 'counter'], desc: 'Cheiro de óleo velho e café queimado.',
   },
-  posto: {
-    label: ['Posto de gasolina', 'Posto Central', 'Auto Posto', 'Posto Rodovia'],
-    floor: 12, wall: 9, size: [10, 8], weight: 4,
-    containers: [['mercado', 1], ['oficina', 1], ['caixa', 1]], beds: 0, partitions: 0, loot: 1.1,
+  farmacia: {
+    label: ['Farmácia', 'Drogaria', 'Farmácia Popular', 'Drogaria Central'],
+    floor: 8, size: [9, 7], weight: 9, icon: '💊', category: 'comercial', floors: 1, rooms: 2,
+    containers: [['farmacia', 3], ['caixa', 1]], beds: 0, partitions: 1, loot: 1.4,
+    furniture: ['shelf', 'counter'], desc: 'Remédios valem mais que dinheiro. Por isso quase não sobrou nada.',
+  },
+  loja_ferramentas: {
+    label: ['Loja de ferramentas', 'Ferragem', 'Casa do construtor', 'Depósito de materiais'],
+    floor: 12, size: [10, 8], weight: 8, icon: '🧰', category: 'comercial', floors: 1, rooms: 2,
+    containers: [['ferramentas', 2], ['oficina', 1], ['caixa', 1]], beds: 0, partitions: 1, loot: 1.3,
+    furniture: ['shelf', 'toolbench', 'counter'], desc: 'Cheiro de óleo, serragem e metal enferrujado.',
   },
   oficina: {
     label: ['Oficina', 'Oficina do Zé', 'Auto Center', 'Garagem'],
-    floor: 12, wall: 9, size: [12, 9], weight: 4,
+    floor: 12, size: [12, 9], weight: 8, icon: '🔧', category: 'comercial', floors: 1, rooms: 2,
     containers: [['oficina', 3], ['ferramentas', 1], ['caixa', 1]], beds: 0, partitions: 0, loot: 1.3,
+    furniture: ['toolbench', 'tire', 'counter'], desc: 'Carros pela metade, ferramentas espalhadas e um elevador parado.',
   },
-  fazenda: {
-    label: ['Celeiro', 'Fazenda Boa Esperança', 'Galpão', 'Estábulo'],
-    floor: 7, wall: 9, size: [13, 10], weight: 3,
-    containers: [['fazenda', 3], ['ferramentas', 1], ['caixa', 1]], beds: 0, partitions: 0, loot: 1.2,
+  posto: {
+    label: ['Posto de gasolina', 'Posto Central', 'Auto Posto', 'Posto Rodovia'],
+    floor: 12, size: [10, 8], weight: 8, icon: '⛽', category: 'comercial', floors: 1, rooms: 1,
+    containers: [['mercado', 1], ['oficina', 1], ['caixa', 1]], beds: 0, partitions: 0, loot: 1.1,
+    furniture: ['counter', 'shelf'], desc: 'Bombas secas, loja vazia e um cheiro de gasolina no ar.',
   },
-  cabana: {
-    label: ['Cabana', 'Chalé', 'Casa rural', 'Acampamento'],
-    floor: 7, wall: 9, size: [7, 6], weight: 8,
-    containers: [['cozinha', 1], ['armario', 1], ['ferramentas', 0.6]], beds: 1, partitions: 0, loot: 0.9,
+  livraria: {
+    label: ['Livraria', 'Sebo', 'Papelaria', 'Biblioteca de bairro'],
+    floor: 8, size: [9, 7], weight: 6, icon: '📚', category: 'comercial', floors: 1, rooms: 2,
+    containers: [['livraria', 2], ['caixa', 1]], beds: 0, partitions: 1, loot: 1.0,
+    furniture: ['shelf', 'desk', 'chair'], desc: 'Livros empilhados. Conhecimento ainda é uma forma de sobreviver.',
+  },
+  eletronicos: {
+    label: ['Loja de eletrônicos', 'Assistência técnica', 'Loja de informática', 'Eletrodomésticos'],
+    floor: 8, size: [9, 7], weight: 6, icon: '📻', category: 'comercial', floors: 1, rooms: 2,
+    containers: [['eletronicos', 2], ['caixa', 1]], beds: 0, partitions: 1, loot: 1.1,
+    furniture: ['shelf', 'counter', 'desk'], desc: 'Pilhas, rádios e aparelhos que ninguém sabe consertar.',
+  },
+  hotel: {
+    label: ['Hotel', 'Hotel Central', 'Pousada', 'Hotel rodoviário'],
+    floor: 8, size: [14, 12], weight: 5, icon: '🏨', category: 'comercial', floors: 3, rooms: 7,
+    containers: [['hotel', 3], ['armario', 2], ['geladeira', 1]], beds: 4, partitions: 3, loot: 1.2,
+    furniture: ['bed', 'table', 'chair', 'sofa', 'desk'], desc: 'Quartos trancados, malas abandonadas e corredores que ecoam.',
+  },
+  motel: {
+    label: ['Motel', 'Motel da rodovia', 'Pousada barata', 'Estalagem'],
+    floor: 7, size: [12, 9], weight: 5, icon: '🛏️', category: 'comercial', floors: 1, rooms: 5,
+    containers: [['hotel', 2], ['armario', 2], ['caixa', 1]], beds: 3, partitions: 2, loot: 1.0,
+    furniture: ['bed', 'table', 'chair'], desc: 'Cortinas fechadas e portas que nunca deveriam ter sido abertas.',
+  },
+  shopping: {
+    label: ['Shopping', 'Centro comercial', 'Galeria', 'Praça de lojas'],
+    floor: 8, size: [16, 13], weight: 3, icon: '🏬', category: 'comercial', floors: 2, rooms: 8,
+    containers: [['mercado', 2], ['roupas', 2], ['eletronicos', 1], ['restaurante', 1], ['caixa', 1]],
+    beds: 0, partitions: 3, loot: 1.5, furniture: ['shelf', 'counter', 'table', 'chair', 'sofa'],
+    desc: 'Um templo de consumo tomado por poeira, vidro e silêncio.',
+  },
+
+  // ---------------- Serviços ----------------
+  hospital: {
+    label: ['Hospital', 'Hospital São Rafael', 'Hospital Central', 'Pronto-socorro'],
+    floor: 8, size: [16, 12], weight: 3, icon: '🏥', category: 'servico', floors: 3, rooms: 8,
+    containers: [['farmacia', 3], ['armario', 2], ['geladeira', 1], ['clinica', 2]], beds: 5, partitions: 3, loot: 1.6,
+    furniture: ['bed', 'desk', 'chair', 'counter', 'shelf'], desc: 'Corredores cheios de macas vazias. O gerador ainda pulsa em algum lugar.',
+  },
+  clinica: {
+    label: ['Clínica', 'Consultório', 'Centro médico', 'Posto de saúde'],
+    floor: 8, size: [11, 9], weight: 6, icon: '🩺', category: 'servico', floors: 1, rooms: 4,
+    containers: [['clinica', 2], ['farmacia', 2], ['armario', 1]], beds: 2, partitions: 2, loot: 1.35,
+    furniture: ['bed', 'desk', 'chair', 'shelf'], desc: 'Consultórios vazios e prontuários espalhados pelo chão.',
+  },
+  delegacia: {
+    label: ['Delegacia', 'Delegacia Central', 'Posto policial', 'Departamento de Polícia'],
+    floor: 8, size: [12, 10], weight: 5, icon: '🚔', category: 'servico', floors: 1, rooms: 4,
+    containers: [['policia', 2], ['armario', 1], ['caixa', 1]], beds: 1, partitions: 2, loot: 1.5,
+    furniture: ['desk', 'chair', 'shelf', 'counter'], desc: 'Algemas nas grades e um quadro de procurados coberto de poeira.',
+  },
+  bombeiros: {
+    label: ['Corpo de Bombeiros', 'Quartel dos bombeiros', 'Estação de resgate', 'Bombeiros'],
+    floor: 12, size: [13, 10], weight: 4, icon: '🚒', category: 'servico', floors: 2, rooms: 4,
+    containers: [['bombeiros', 2], ['ferramentas', 1], ['caixa', 1]], beds: 2, partitions: 2, loot: 1.4,
+    furniture: ['toolbench', 'desk', 'chair', 'shelf'], desc: 'Mangueiras secas, caminhões parados e capacetes alinhados.',
+  },
+  escola: {
+    label: ['Escola', 'Escola Municipal', 'Colégio Estadual', 'Creche'],
+    floor: 7, size: [15, 12], weight: 6, icon: '🏫', category: 'servico', floors: 2, rooms: 7,
+    containers: [['escola', 3], ['caixa', 1], ['armario', 1], ['biblioteca', 1]], beds: 0, partitions: 3, loot: 1.2,
+    furniture: ['desk', 'chair', 'shelf', 'table'], desc: 'Salas com carteiras enfileiradas e desenhos ainda presos na parede.',
+  },
+  universidade: {
+    label: ['Universidade', 'Campus universitário', 'Faculdade', 'Instituto'],
+    floor: 8, size: [18, 14], weight: 2, icon: '🎓', category: 'servico', floors: 3, rooms: 9,
+    containers: [['universidade', 3], ['biblioteca', 2], ['escola', 2], ['farmacia', 1]], beds: 1, partitions: 3, loot: 1.45,
+    furniture: ['desk', 'chair', 'shelf', 'table', 'sofa'], desc: 'Anfiteatros vazios, laboratórios saqueados e um campus grande demais para vigiar.',
+  },
+  prefeitura: {
+    label: ['Prefeitura', 'Paço municipal', 'Câmara municipal', 'Centro administrativo'],
+    floor: 8, size: [14, 11], weight: 4, icon: '🏛️', category: 'servico', floors: 2, rooms: 6,
+    containers: [['prefeitura', 2], ['armario', 2], ['caixa', 1]], beds: 1, partitions: 2, loot: 1.25,
+    furniture: ['desk', 'chair', 'shelf', 'table'], desc: 'Bandeiras rasgadas e decretos que ninguém chegou a ler.',
+  },
+  correios: {
+    label: ['Correios', 'Agência postal', 'Central de entregas', 'Depósito postal'],
+    floor: 8, size: [11, 9], weight: 5, icon: '📮', category: 'servico', floors: 1, rooms: 3,
+    containers: [['correios', 2], ['caixa', 2]], beds: 0, partitions: 2, loot: 1.15,
+    furniture: ['shelf', 'counter', 'desk'], desc: 'Caixas e cartas que nunca chegaram a ninguém.',
+  },
+  biblioteca: {
+    label: ['Biblioteca', 'Biblioteca municipal', 'Arquivo público', 'Sala de leitura'],
+    floor: 7, size: [12, 10], weight: 4, icon: '📖', category: 'servico', floors: 2, rooms: 4,
+    containers: [['biblioteca', 3], ['caixa', 1]], beds: 0, partitions: 2, loot: 1.1,
+    furniture: ['shelf', 'desk', 'chair', 'table'], desc: 'Estantes altas, poeira no ar e o cheiro de papel velho.',
   },
   igreja: {
-    label: ['Igreja', 'Capela', 'Santuário'],
-    floor: 7, wall: 9, size: [11, 10], weight: 2,
+    label: ['Igreja', 'Capela', 'Santuário', 'Paróquia'],
+    floor: 7, size: [11, 10], weight: 4, icon: '⛪', category: 'servico', floors: 1, rooms: 2,
     containers: [['armario', 1], ['caixa', 1], ['cozinha', 1]], beds: 0, partitions: 0, loot: 1.1,
+    furniture: ['table', 'chair', 'sofa', 'shelf'], desc: 'Velas apagadas e bancos virados. Alguns ainda rezam aqui.',
+  },
+  cemiterio: {
+    label: ['Cemitério', 'Cemitério municipal', 'Necrotério', 'Capela mortuária'],
+    floor: 12, size: [12, 9], weight: 3, icon: '🪦', category: 'servico', floors: 1, rooms: 1,
+    containers: [['cemiterio', 1], ['caixa', 1]], beds: 0, partitions: 0, loot: 1.0,
+    furniture: ['desk', 'chair', 'shelf'], desc: 'Lápides recentes demais. Algumas covas ainda estão abertas.',
+  },
+
+  // ---------------- Indústria ----------------
+  fabrica: {
+    label: ['Fábrica', 'Fábrica têxtil', 'Indústria metalúrgica', 'Complexo industrial'],
+    floor: 12, size: [17, 13], weight: 4, icon: '🏭', category: 'industria', floors: 2, rooms: 5,
+    containers: [['fabrica', 3], ['ferramentas', 2], ['caixa', 2]], beds: 1, partitions: 2, loot: 1.4,
+    furniture: ['toolbench', 'counter', 'shelf', 'desk'], desc: 'Máquinas paradas, esteiras imóveis e um turno que nunca terminou.',
+  },
+  galpao: {
+    label: ['Galpão', 'Galpão industrial', 'Depósito seco', 'Armazém'],
+    floor: 12, size: [15, 12], weight: 6, icon: '🏗️', category: 'industria', floors: 1, rooms: 2,
+    containers: [['armazem', 3], ['ferramentas', 1], ['caixa', 2]], beds: 0, partitions: 1, loot: 1.25,
+    furniture: ['shelf', 'toolbench', 'counter'], desc: 'Vão imenso, ecoante e cheio de caixas que ninguém vai buscar.',
+  },
+  armazem: {
+    label: ['Armazém', 'Depósito comercial', 'Centro de distribuição', 'Entreposto'],
+    floor: 12, size: [14, 11], weight: 6, icon: '📦', category: 'industria', floors: 1, rooms: 3,
+    containers: [['armazem', 2], ['mercado', 1], ['caixa', 2]], beds: 0, partitions: 1, loot: 1.3,
+    furniture: ['shelf', 'counter'], desc: 'Paletes empilhados até o teto. O inventário nunca será conferido.',
+  },
+  deposito: {
+    label: ['Depósito', 'Depósito de materiais', 'Galpão de obras', 'Almoxarifado'],
+    floor: 12, size: [12, 10], weight: 7, icon: '🧱', category: 'industria', floors: 1, rooms: 2,
+    containers: [['ferramentas', 2], ['armazem', 1], ['caixa', 1]], beds: 0, partitions: 1, loot: 1.2,
+    furniture: ['toolbench', 'shelf'], desc: 'Madeira, metal e poeira. Um paraíso para quem sabe construir.',
+  },
+  ferrovelho: {
+    label: ['Ferro-velho', 'Desmanche', 'Pátio de sucata', 'Recicladora'],
+    floor: 12, size: [13, 10], weight: 5, icon: '🛠️', category: 'industria', floors: 1, rooms: 1,
+    containers: [['ferrovelho', 2], ['oficina', 1], ['caixa', 1]], beds: 0, partitions: 0, loot: 1.35,
+    furniture: ['toolbench', 'tire'], desc: 'Montanhas de carros desmontados e peças que ainda podem salvar vidas.',
+  },
+  usina: {
+    label: ['Usina', 'Central elétrica', 'Estação de energia', 'Subestação'],
+    floor: 12, size: [16, 13], weight: 2, icon: '⚡', category: 'industria', floors: 2, rooms: 4,
+    containers: [['usina', 2], ['ferramentas', 2], ['caixa', 1]], beds: 1, partitions: 2, loot: 1.5,
+    furniture: ['toolbench', 'counter', 'desk'], desc: 'Transformadores silenciosos e cabos que ainda faíscam de vez em quando.',
+  },
+  estacao_trem: {
+    label: ['Estação de trem', 'Estação ferroviária', 'Terminal ferroviário', 'Estação'],
+    floor: 12, size: [15, 10], weight: 3, icon: '🚉', category: 'industria', floors: 1, rooms: 3,
+    containers: [['estacao', 2], ['caixa', 1], ['mercado', 1]], beds: 0, partitions: 2, loot: 1.2,
+    furniture: ['counter', 'chair', 'shelf'], desc: 'Trilhos cobertos de mato e um painel de partidas congelado no tempo.',
+  },
+
+  // ---------------- Militar / isolado ----------------
+  quartel: {
+    label: ['Quartel', 'Quartel da Guarda', 'Base militar', 'Posto do Exército'],
+    floor: 12, size: [14, 11], weight: 4, icon: '🪖', category: 'militar', floors: 2, rooms: 5,
+    containers: [['quartel', 2], ['armario_militar', 2], ['caixa', 2]], beds: 2, partitions: 2, loot: 1.9,
+    furniture: ['bed', 'desk', 'chair', 'shelf'], desc: 'Uniformes vazios, beliches arrumados e um silêncio disciplinado demais.',
+  },
+  base_militar: {
+    label: ['Base militar', 'Base aérea', 'Comando militar', 'Posto avançado'],
+    floor: 12, size: [18, 14], weight: 2, icon: '🎖️', category: 'militar', floors: 2, rooms: 8,
+    containers: [['base_militar', 3], ['quartel', 2], ['armario_militar', 2]], beds: 4, partitions: 3, loot: 2.0,
+    furniture: ['bed', 'desk', 'chair', 'shelf', 'toolbench'], desc: 'Arame farpado, torres de vigia e uma bandeira que ninguém arriou.',
+  },
+  prisao: {
+    label: ['Prisão', 'Penitenciária', 'Cadeia municipal', 'Centro de detenção'],
+    floor: 12, size: [17, 13], weight: 2, icon: '⛓️', category: 'militar', floors: 2, rooms: 8,
+    containers: [['prisao', 2], ['policia', 2], ['caixa', 1]], beds: 3, partitions: 3, loot: 1.5,
+    furniture: ['bed', 'desk', 'chair', 'shelf'], desc: 'Celas abertas, grades tortas e marcas de dedos nas paredes.',
+  },
+  posto_controle: {
+    label: ['Posto de controle', 'Barreira militar', 'Checkpoint', 'Posto de vigilância'],
+    floor: 12, size: [9, 7], weight: 4, icon: '🚧', category: 'militar', floors: 1, rooms: 2,
+    containers: [['quartel', 1], ['caixa', 1], ['policia', 0.5]], beds: 1, partitions: 1, loot: 1.3,
+    furniture: ['desk', 'chair', 'shelf'], desc: 'Sacos de areia, holofotes mortos e um bloqueio que não deteve ninguém.',
+  },
+  aeroporto: {
+    label: ['Aeroporto', 'Aeroclube', 'Terminal aéreo', 'Pista de pouso'],
+    floor: 12, size: [19, 14], weight: 1, icon: '✈️', category: 'militar', floors: 2, rooms: 8,
+    containers: [['aeroporto', 3], ['quartel', 1], ['caixa', 2]], beds: 2, partitions: 3, loot: 1.7,
+    furniture: ['counter', 'desk', 'chair', 'shelf'], desc: 'Pistas vazias, painéis apagados e aviões que nunca vão decolar.',
+  },
+
+  // ---------------- Rural / natureza ----------------
+  fazenda: {
+    label: ['Celeiro', 'Fazenda Boa Esperança', 'Galpão da fazenda', 'Estábulo'],
+    floor: 7, size: [13, 10], weight: 6, icon: '🌾', category: 'rural', floors: 1, rooms: 2,
+    containers: [['fazenda', 3], ['ferramentas', 1], ['caixa', 1]], beds: 0, partitions: 0, loot: 1.2,
+    furniture: ['toolbench', 'shelf', 'table'], desc: 'Feno, ferramentas e o cheiro de animais que já não estão aqui.',
+  },
+  celeiro: {
+    label: ['Celeiro', 'Silo', 'Armazém agrícola', 'Galpão rural'],
+    floor: 7, size: [11, 9], weight: 5, icon: '🏚️', category: 'rural', floors: 1, rooms: 1,
+    containers: [['fazenda', 2], ['armazem', 1], ['caixa', 1]], beds: 0, partitions: 0, loot: 1.1,
+    furniture: ['shelf', 'toolbench'], desc: 'Madeira velha, grãos espalhados e ratos que nunca foram embora.',
+  },
+  sitio: {
+    label: ['Sítio', 'Chácara', 'Rancho', 'Propriedade rural'],
+    floor: 7, size: [10, 8], weight: 6, icon: '🌻', category: 'rural', floors: 1, rooms: 3,
+    containers: [['cozinha', 1], ['armario', 1], ['ferramentas', 1], ['fazenda', 1]], beds: 1, partitions: 1, loot: 1.0,
+    furniture: ['table', 'chair', 'sofa', 'shelf'], desc: 'Horta seca, galinheiro vazio e uma casa que já foi um lar.',
+  },
+  estufa: {
+    label: ['Estufa', 'Casa de vegetação', 'Viveiro', 'Horta coberta'],
+    floor: 8, size: [9, 7], weight: 4, icon: '🌱', category: 'rural', floors: 1, rooms: 1,
+    containers: [['fazenda', 2], ['ferramentas', 0.6]], beds: 0, partitions: 0, loot: 1.05,
+    furniture: ['shelf', 'table'], desc: 'Vidros quebrados e plantas que cresceram além do controle.',
+  },
+  moinho: {
+    label: ['Moinho', 'Moinho antigo', 'Casa de farinha', 'Ateliê rural'],
+    floor: 7, size: [9, 8], weight: 3, icon: '🌾', category: 'rural', floors: 2, rooms: 2,
+    containers: [['fazenda', 1], ['ferramentas', 1], ['caixa', 1]], beds: 1, partitions: 1, loot: 1.0,
+    furniture: ['toolbench', 'shelf', 'table'], desc: 'Engrenagens de madeira paradas e farinha endurecida no chão.',
+  },
+  ruina: {
+    label: ['Ruína', 'Casa abandonada', 'Prédio em ruínas', 'Escombro'],
+    floor: 13, size: [10, 8], weight: 7, icon: '🏚️', category: 'abandonado', floors: 1, rooms: 2,
+    containers: [['caixa', 1], ['ferramentas', 0.4]], beds: 0, partitions: 1, loot: 0.7,
+    furniture: ['table', 'chair', 'shelf'], desc: 'Paredes caídas e um teto que já não protege ninguém.',
   },
 };
 
@@ -248,11 +623,31 @@ export const CONTAINER_INFO = {
   cozinha: { name: 'Armário de cozinha', icon: '🗄️', table: 'cozinha', solid: true },
   armario: { name: 'Armário', icon: '🚪', table: 'armario', solid: true },
   farmacia: { name: 'Armário de remédios', icon: '💊', table: 'farmacia', solid: true },
+  clinica: { name: 'Armário clínico', icon: '🩺', table: 'clinica', solid: true },
   mercado: { name: 'Prateleira', icon: '🛒', table: 'mercado', solid: true },
   escola: { name: 'Armário escolar', icon: '🎒', table: 'escola', solid: true },
+  universidade: { name: 'Armário do campus', icon: '🎓', table: 'universidade', solid: true },
+  biblioteca: { name: 'Estante de livros', icon: '📚', table: 'biblioteca', solid: true },
   policia: { name: 'Armário policial', icon: '🚔', table: 'policia', solid: true },
   quartel: { name: 'Caixote militar', icon: '📦', table: 'quartel', solid: true },
   armario_militar: { name: 'Armário militar', icon: '🪖', table: 'armario_militar', solid: true },
+  base_militar: { name: 'Contêiner militar', icon: '🎖️', table: 'base_militar', solid: true },
+  prisao: { name: 'Armário da prisão', icon: '⛓️', table: 'prisao', solid: true },
+  aeroporto: { name: 'Contêiner de carga', icon: '✈️', table: 'aeroporto', solid: true },
+  bombeiros: { name: 'Armário dos bombeiros', icon: '🚒', table: 'bombeiros', solid: true },
+  prefeitura: { name: 'Arquivo municipal', icon: '🏛️', table: 'prefeitura', solid: true },
+  correios: { name: 'Pilha de encomendas', icon: '📮', table: 'correios', solid: true },
+  hotel: { name: 'Armário do quarto', icon: '🏨', table: 'hotel', solid: true },
+  roupas: { name: 'Arara de roupas', icon: '👕', table: 'roupas', solid: true },
+  restaurante: { name: 'Despensa do restaurante', icon: '🍽️', table: 'restaurante', solid: true },
+  eletronicos: { name: 'Vitrine de eletrônicos', icon: '📻', table: 'eletronicos', solid: true },
+  livraria: { name: 'Estante da livraria', icon: '📚', table: 'livraria', solid: true },
+  fabrica: { name: 'Armário de fábrica', icon: '🏭', table: 'fabrica', solid: true },
+  armazem: { name: 'Pilha de caixas', icon: '📦', table: 'armazem', solid: true },
+  estacao: { name: 'Armário da estação', icon: '🚉', table: 'estacao', solid: true },
+  ferrovelho: { name: 'Pilha de sucata', icon: '🛠️', table: 'ferrovelho', solid: true },
+  usina: { name: 'Armário da usina', icon: '⚡', table: 'usina', solid: true },
+  cemiterio: { name: 'Caixão velho', icon: '🪦', table: 'cemiterio', solid: true },
   oficina: { name: 'Bancada', icon: '🔧', table: 'oficina', solid: true },
   ferramentas: { name: 'Caixa de ferramentas', icon: '🧰', table: 'ferramentas', solid: true },
   fazenda: { name: 'Caixote do celeiro', icon: '🌾', table: 'fazenda', solid: true },

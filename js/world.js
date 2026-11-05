@@ -11,12 +11,104 @@ export const T = {
 };
 
 export const TILE = 32;
-export const WORLD_SIZE = 200;
+export const WORLD_SIZE = 320;
 
 const TOWN_NAMES = [
   'Vale Sereno', 'Nova Esperança', 'Santa Cruz', 'Rio das Pedras', 'Morro Alto',
   'Boa Vista', 'Campo Belo', 'Vila Nova', 'Serra Azul', 'Lagoa Seca',
+  'Porto Seco', 'Refúgio Norte', 'Vale das Cinzas',
 ];
+
+// Assentamentos do vale. O mundo é grande de propósito: cada região tem uma
+// identidade própria e exige preparação para ser atravessada.
+export const SETTLEMENTS = [
+  { id: 'vale', name: 'Vale Sereno', cx: 160, cy: 160, w: 96, h: 84, cols: 5, rows: 4, profile: 'metropole', main: true,
+    kind: 'metrópole', desc: 'A grande cidade do vale. Hospital, quartel, universidade e bairros que não dormem.' },
+  { id: 'nova', name: 'Nova Esperança', cx: 72, cy: 108, w: 64, h: 54, cols: 4, rows: 3, profile: 'industrial',
+    kind: 'cidade industrial', desc: 'Fábricas, galpões e o cheiro de ferrugem. O trabalho acabou, as máquinas ficaram.' },
+  { id: 'santa', name: 'Santa Cruz', cx: 252, cy: 96, w: 60, h: 50, cols: 4, rows: 3, profile: 'comercial',
+    kind: 'cidade comercial', desc: 'Lojas, restaurantes e um centro que já foi movimentado.' },
+  { id: 'vilanova', name: 'Vila Nova', cx: 252, cy: 244, w: 54, h: 46, cols: 3, rows: 3, profile: 'residencial',
+    kind: 'cidade residencial', desc: 'Casas, escolas e ruas tranquilas demais para o que aconteceu.' },
+  { id: 'boavista', name: 'Boa Vista', cx: 72, cy: 248, w: 48, h: 40, cols: 3, rows: 3, profile: 'rural',
+    kind: 'vila rural', desc: 'Uma comunidade agrícola onde todo mundo conhecia todo mundo.' },
+  { id: 'porto', name: 'Porto Seco', cx: 116, cy: 52, w: 50, h: 40, cols: 3, rows: 3, profile: 'industrial',
+    kind: 'distrito industrial', desc: 'Armazéns, trilhos e o rio que trouxe a carga e levou a esperança.' },
+  { id: 'serra', name: 'Serra Azul', cx: 244, cy: 176, w: 42, h: 36, cols: 3, rows: 2, profile: 'rico',
+    kind: 'bairro nobre', desc: 'Mansões, condomínios e muros altos. Dinheiro não comprou imunidade.' },
+  { id: 'lagoa', name: 'Lagoa Seca', cx: 140, cy: 274, w: 40, h: 34, cols: 3, rows: 2, profile: 'lago',
+    kind: 'vila lacustre', desc: 'Casas de pescador e um lago que ainda pode alimentar quem souber pescar.' },
+  { id: 'refugio', name: 'Refúgio Norte', cx: 184, cy: 42, w: 34, h: 28, cols: 2, rows: 2, profile: 'militar',
+    kind: 'posto militar', desc: 'Um posto de controle que virou última linha de defesa — e depois silêncio.' },
+  { id: 'cinzas', name: 'Vale das Cinzas', cx: 290, cy: 300, w: 36, h: 30, cols: 3, rows: 2, profile: 'abandonado',
+    kind: 'zona abandonada', desc: 'Uma cidade que queimou antes dos mortos andarem.' },
+];
+
+const TOWN_PROFILES = {
+  metropole: {
+    keyTypes: ['hospital', 'mercado', 'delegacia', 'escola', 'quartel', 'posto', 'oficina', 'universidade', 'prefeitura', 'shopping', 'bombeiros', 'biblioteca', 'hotel', 'apartamento'],
+    center: ['mercado', 'loja_roupas', 'restaurante', 'lanchonete', 'farmacia', 'eletronicos', 'livraria', 'correios', 'clinica', 'prefeitura'],
+    residential: ['casa', 'casa_pequena', 'casa_familiar', 'sobrado', 'casa_moderna', 'apartamento', 'predio', 'condominio', 'casa_antiga'],
+    industrial: ['oficina', 'deposito', 'galpao', 'armazem', 'ferrovelho', 'fabrica'],
+    outskirts: ['casa_pequena', 'ruina', 'casa_antiga', 'mercearia', 'oficina', 'posto'],
+  },
+  industrial: {
+    keyTypes: ['fabrica', 'galpao', 'armazem', 'oficina', 'posto', 'deposito', 'ferrovelho', 'usina', 'estacao_trem', 'mercado', 'delegacia'],
+    center: ['mercado', 'mercearia', 'farmacia', 'lanchonete', 'loja_ferramentas', 'posto', 'correios'],
+    residential: ['casa_pequena', 'casa', 'casa_antiga', 'apartamento', 'ruina', 'predio'],
+    industrial: ['fabrica', 'galpao', 'armazem', 'deposito', 'ferrovelho', 'usina', 'oficina', 'estacao_trem'],
+    outskirts: ['casa_pequena', 'ruina', 'deposito', 'galpao', 'mercearia'],
+  },
+  comercial: {
+    keyTypes: ['mercado', 'shopping', 'loja_roupas', 'restaurante', 'farmacia', 'eletronicos', 'livraria', 'hotel', 'prefeitura', 'correios', 'delegacia', 'clinica'],
+    center: ['mercado', 'loja_roupas', 'restaurante', 'lanchonete', 'farmacia', 'eletronicos', 'livraria', 'hotel', 'motel', 'correios', 'clinica'],
+    residential: ['casa', 'casa_familiar', 'apartamento', 'sobrado', 'predio', 'condominio', 'casa_moderna'],
+    industrial: ['oficina', 'deposito', 'armazem', 'galpao'],
+    outskirts: ['casa_pequena', 'mercearia', 'ruina', 'posto'],
+  },
+  residencial: {
+    keyTypes: ['escola', 'farmacia', 'mercado', 'delegacia', 'igreja', 'biblioteca', 'clinica', 'condominio'],
+    center: ['mercearia', 'farmacia', 'lanchonete', 'escola', 'biblioteca', 'correios', 'clinica'],
+    residential: ['casa', 'casa_familiar', 'sobrado', 'apartamento', 'condominio', 'casa_moderna', 'predio', 'casa_pequena'],
+    industrial: ['oficina', 'deposito', 'armazem'],
+    outskirts: ['casa_pequena', 'ruina', 'sitio', 'mercearia'],
+  },
+  rural: {
+    keyTypes: ['fazenda', 'celeiro', 'sitio', 'estufa', 'moinho', 'igreja', 'mercearia', 'posto_controle'],
+    center: ['mercearia', 'igreja', 'posto', 'oficina', 'clinica'],
+    residential: ['casa', 'cabana', 'chale', 'casa_antiga', 'sitio'],
+    industrial: ['celeiro', 'fazenda', 'moinho', 'deposito'],
+    outskirts: ['cabana', 'chale', 'sitio', 'ruina', 'estufa'],
+  },
+  rico: {
+    keyTypes: ['mansao', 'casa_moderna', 'condominio', 'clinica', 'hotel', 'igreja', 'restaurante', 'loja_roupas'],
+    center: ['restaurante', 'loja_roupas', 'clinica', 'farmacia', 'livraria', 'eletronicos'],
+    residential: ['mansao', 'casa_moderna', 'condominio', 'casa_familiar', 'sobrado'],
+    industrial: ['oficina', 'deposito'],
+    outskirts: ['casa_moderna', 'mansao', 'cabana'],
+  },
+  militar: {
+    keyTypes: ['base_militar', 'quartel', 'posto_controle', 'prisao', 'aeroporto', 'deposito', 'clinica'],
+    center: ['posto_controle', 'clinica', 'deposito', 'quartel'],
+    residential: ['casa_pequena', 'casa_antiga', 'apartamento'],
+    industrial: ['deposito', 'galpao', 'armazem', 'oficina'],
+    outskirts: ['posto_controle', 'ruina', 'casa_pequena'],
+  },
+  abandonado: {
+    keyTypes: ['ruina', 'casa_antiga', 'fabrica', 'galpao', 'deposito', 'oficina', 'igreja'],
+    center: ['ruina', 'casa_antiga', 'mercearia', 'oficina'],
+    residential: ['ruina', 'casa_antiga', 'casa_pequena', 'cabana'],
+    industrial: ['fabrica', 'galpao', 'deposito', 'ferrovelho'],
+    outskirts: ['ruina', 'casa_antiga', 'cabana'],
+  },
+  lago: {
+    keyTypes: ['fazenda', 'sitio', 'estufa', 'mercado', 'igreja', 'clinica', 'posto'],
+    center: ['mercearia', 'igreja', 'lanchonete', 'farmacia'],
+    residential: ['casa', 'cabana', 'chale', 'casa_pequena', 'sitio'],
+    industrial: ['celeiro', 'fazenda', 'deposito'],
+    outskirts: ['cabana', 'chale', 'estufa', 'ruina'],
+  },
+};
 
 const ROAD_COLORS = {
   [T.ROAD]: '#3a3b38', [T.SIDEWALK]: '#66665f', [T.DIRT]: '#5a4a34', [T.GRAVEL]: '#5d5c55',
@@ -78,8 +170,10 @@ export class World {
   generate() {
     this.generateTerrain();
     this.generateHighways();
+    this.generateRoadNetwork();
     this.generateTowns();
     this.generateRural();
+    this.generateLandmarks();
     this.placeTrees();
     this.placeVehicles();
     this.buildSpawnPoints();
@@ -91,18 +185,23 @@ export class World {
     const rng = this.rng;
     for (let y = 0; y < this.h; y++) {
       for (let x = 0; x < this.w; x++) {
-        const n = fbm(x / 24, y / 24, this.seed);
-        const n2 = fbm(x / 9 + 41, y / 9 - 17, this.seed + 9);
+        const n = fbm(x / 30, y / 30, this.seed);
+        const n2 = fbm(x / 11 + 41, y / 11 - 17, this.seed + 9);
+        const n3 = fbm(x / 62 + 7, y / 62 - 3, this.seed + 21);
         let t = T.GRASS;
-        if (n > 0.62 + n2 * 0.08) t = T.FOREST;
-        else if (n2 > 0.68) t = T.TALLGRASS;
+        if (n > 0.60 + n2 * 0.09) t = T.FOREST;
+        else if (n2 > 0.67) t = T.TALLGRASS;
+        else if (n3 > 0.73) t = T.GRAVEL;
         this.tiles[y * this.w + x] = t;
       }
     }
-    // Lago principal no noroeste
+    // Lagos e áreas alagadas
     const lakes = [
-      { x: 34, y: 38, rx: 22, ry: 16 },
-      { x: 170, y: 155, rx: 13, ry: 10 },
+      { x: 48, y: 58, rx: 26, ry: 18 },
+      { x: 276, y: 250, rx: 18, ry: 14 },
+      { x: 44, y: 296, rx: 12, ry: 8 },
+      { x: 296, y: 42, rx: 10, ry: 7 },
+      { x: 198, y: 292, rx: 13, ry: 9 },
     ];
     for (const lake of lakes) {
       for (let y = lake.y - lake.ry; y <= lake.y + lake.ry; y++) {
@@ -114,14 +213,31 @@ export class World {
         }
       }
     }
-    // Pequenas lagoas
-    for (let i = 0; i < 5; i++) {
+    // Rio sinuoso cortando o vale de norte a sul. As estradas criam pontes.
+    let rx = 206;
+    for (let y = 0; y < this.h; y++) {
+      rx += Math.sin(y / 15) * 0.55 + (rng() - 0.5) * 0.35;
+      rx = clamp(rx, 176, 226);
+      const width = y > 150 ? 3 : 2;
+      for (let k = -width; k <= width; k++) {
+        const x = Math.round(rx + k);
+        if (this.inBounds(x, y)) this.setTile(x, y, T.WATER);
+      }
+      if (y % 17 === 0) {
+        for (let k = -width - 1; k <= width + 1; k++) {
+          const x = Math.round(rx + k);
+          if (this.inBounds(x, y + 1)) this.setTile(x, y + 1, T.SAND);
+        }
+      }
+    }
+    // Pequenas lagoas e clareiras
+    for (let i = 0; i < 9; i++) {
       const cx = randInt(rng, 20, this.w - 20), cy = randInt(rng, 20, this.h - 20);
-      if (dist(cx, cy, 100, 100) < 45) continue;
-      const rx = randInt(rng, 3, 7), ry = randInt(rng, 3, 6);
-      for (let y = cy - ry; y <= cy + ry; y++) for (let x = cx - rx; x <= cx + rx; x++) {
+      if (dist(cx, cy, 160, 160) < 70) continue;
+      const rx2 = randInt(rng, 3, 8), ry2 = randInt(rng, 3, 7);
+      for (let y = cy - ry2; y <= cy + ry2; y++) for (let x = cx - rx2; x <= cx + rx2; x++) {
         if (!this.inBounds(x, y)) continue;
-        const d = ((x - cx) / rx) ** 2 + ((y - cy) / ry) ** 2;
+        const d = ((x - cx) / rx2) ** 2 + ((y - cy) / ry2) ** 2;
         if (d < 0.8) this.setTile(x, y, T.WATER);
         else if (d < 1.1) this.setTile(x, y, T.SAND);
       }
@@ -129,18 +245,71 @@ export class World {
   }
 
   generateHighways() {
-    // Rodovia principal
-    this.fill(0, 98, this.w, 3, T.ROAD);
-    this.fill(98, 0, 3, this.h, T.ROAD);
-    // Acentos quebrados
-    for (let x = 4; x < this.w; x += 8) {
-      this.setTile(x, 99, T.GRAVEL);
-      this.setTile(x + 2, 99, T.GRASS);
+    // Eixos principais da metrópole
+    this.fill(0, 158, this.w, 3, T.ROAD);
+    this.fill(158, 0, 3, this.h, T.ROAD);
+    // acostamentos e faixas
+    for (let x = 4; x < this.w; x += 9) {
+      this.setTile(x, 157, T.GRAVEL);
+      this.setTile(x, 161, T.GRAVEL);
     }
-    for (let y = 4; y < this.h; y += 8) {
-      this.setTile(99, y, T.GRAVEL);
-      this.setTile(99, y + 2, T.GRASS);
+    for (let y = 4; y < this.h; y += 9) {
+      this.setTile(157, y, T.GRAVEL);
+      this.setTile(161, y, T.GRAVEL);
     }
+  }
+
+  carveRoad(x1, y1, x2, y2, width = 3, tile = T.ROAD) {
+    const half = Math.floor(width / 2);
+    const drawH = (xa, xb, y) => {
+      const from = Math.min(xa, xb), to = Math.max(xa, xb);
+      for (let x = from; x <= to; x++) for (let w = -half; w <= half; w++) {
+        const yy = y + w;
+        if (!this.inBounds(x, yy)) continue;
+        const t = this.tile(x, yy);
+        if (t === T.WALL) continue;
+        this.setTile(x, yy, t === T.WATER ? T.ROAD : tile);
+      }
+    };
+    const drawV = (ya, yb, x) => {
+      const from = Math.min(ya, yb), to = Math.max(ya, yb);
+      for (let y = from; y <= to; y++) for (let w = -half; w <= half; w++) {
+        const xx = x + w;
+        if (!this.inBounds(xx, y)) continue;
+        const t = this.tile(xx, y);
+        if (t === T.WALL) continue;
+        this.setTile(xx, y, t === T.WATER ? T.ROAD : tile);
+      }
+    };
+    // Caminho em L com trecho diagonal suave
+    if (Math.abs(x2 - x1) > Math.abs(y2 - y1)) {
+      drawH(x1, x2, y1);
+      drawV(y1, y2, x2);
+    } else {
+      drawV(y1, y2, x1);
+      drawH(x1, x2, y2);
+    }
+  }
+
+  generateRoadNetwork() {
+    const main = SETTLEMENTS.find(s => s.main) || SETTLEMENTS[0];
+    // Estradas radiais ligando cada assentamento ao centro do vale.
+    for (const st of SETTLEMENTS) {
+      if (st.main) continue;
+      const rural = ['rural', 'lago', 'abandonado'].includes(st.profile);
+      this.carveRoad(main.cx, main.cy, st.cx, st.cy, rural ? 2 : 3, rural ? T.DIRT : T.ROAD);
+    }
+    // Anel viário externo: conecta as cidades menores entre si.
+    const ring = SETTLEMENTS.filter(s => !s.main).sort((a, b) => Math.atan2(a.cy - main.cy, a.cx - main.cx) - Math.atan2(b.cy - main.cy, b.cx - main.cx));
+    for (let i = 0; i < ring.length; i++) {
+      const a = ring[i], b = ring[(i + 1) % ring.length];
+      this.carveRoad(a.cx, a.cy, b.cx, b.cy, 2, T.DIRT);
+    }
+    // Estradas vicinais extras para fazendas e áreas rurais.
+    this.carveRoad(60, 170, 96, 190, 2, T.DIRT);
+    this.carveRoad(236, 224, 270, 200, 2, T.DIRT);
+    this.carveRoad(108, 72, 132, 100, 2, T.DIRT);
+    this.carveRoad(190, 96, 224, 112, 2, T.DIRT);
   }
 
   generateTowns() {
@@ -186,21 +355,23 @@ export class World {
 
   generateTown(def) {
     const rng = this.rng;
+    const profile = TOWN_PROFILES[def.profile] || TOWN_PROFILES.residencial;
     const { cx, cy, w, h, main, name } = def;
     const x0 = Math.round(cx - w / 2), y0 = Math.round(cy - h / 2);
-    const cols = main ? 4 : 3, rows = main ? 4 : 3;
-    const cellW = main ? 17 : 15, cellH = main ? 14 : 13;
+    const cols = def.cols || 3, rows = def.rows || 3;
+    const cellW = Math.max(13, Math.floor((w - 6) / cols));
+    const cellH = Math.max(11, Math.floor((h - 6) / rows));
     const vStreets = [], hStreets = [];
     for (let i = 0; i <= cols; i++) vStreets.push(x0 + 3 + i * cellW);
     for (let j = 0; j <= rows; j++) hStreets.push(y0 + 3 + j * cellH);
 
-    // canteiros de calçada no entorno
+    // Limpa vegetação densa para a mancha urbana.
     for (let y = y0; y < y0 + h; y++) for (let x = x0; x < x0 + w; x++) {
       const t = this.tile(x, y);
       if (t === T.WATER || t === T.WALL) continue;
       if (t === T.FOREST || t === T.TALLGRASS) this.setTile(x, y, T.GRASS);
     }
-    // ruas e calçadas
+    // Ruas e calçadas
     for (const sx of vStreets) {
       this.fill(sx - 1, y0, 3, h, T.ROAD);
       for (let y = y0; y < y0 + h; y++) {
@@ -215,17 +386,20 @@ export class World {
         if (this.tile(x, sy + 2) !== T.ROAD && this.tile(x, sy + 2) !== T.WATER) this.setTile(x, sy + 2, T.SIDEWALK);
       }
     }
-    // faixas centrais
+    // Faixas centrais
     for (const sx of vStreets) for (let y = y0; y < y0 + h; y += 6) this.setTile(sx, y, T.GRAVEL);
     for (const sy of hStreets) for (let x = x0; x < x0 + w; x += 6) this.setTile(x, sy, T.GRAVEL);
 
-    const zone = { id: uid('z'), name, x: x0, y: y0, w, h, main, kind: 'cidade' };
+    const zone = { id: uid('z'), name, x: x0, y: y0, w, h, main, kind: def.kind || 'cidade', profile: def.profile, desc: def.desc || '' };
     this.zones.push(zone);
-
-    const keyTypes = main
-      ? ['hospital', 'mercado', 'delegacia', 'escola', 'quartel', 'posto', 'oficina', 'apartamento', 'apartamento', 'igreja']
-      : shuffle(rng, ['mercado', 'casa', 'casa', 'casa', 'oficina', 'fazenda', 'igreja']);
-    let keyIndex = 0;
+    // Zonas de bairro (usadas pelo HUD e pelo mapa)
+    if (w >= 42 && h >= 34) {
+      const innerW = Math.max(12, cellW * Math.max(1, cols - 2));
+      const innerH = Math.max(10, cellH * Math.max(1, rows - 2));
+      this.zones.push({ id: uid('z'), name: 'Centro de ' + name, x: x0 + cellW, y: y0 + cellH, w: innerW, h: innerH, kind: 'centro', parent: name });
+      this.zones.push({ id: uid('z'), name: 'Bairro residencial · ' + name, x: x0, y: y0 + h - cellH * 2, w: w, h: cellH * 2, kind: 'residencial', parent: name });
+      this.zones.push({ id: uid('z'), name: 'Distrito industrial · ' + name, x: x0, y: y0, w: cellW * 2, h: h, kind: 'industrial', parent: name });
+    }
 
     const lots = [];
     for (let i = 0; i < cols; i++) {
@@ -236,41 +410,73 @@ export class World {
       }
     }
     const ordered = shuffle(rng, lots);
-    // lotes maiores primeiro para prédios grandes
     ordered.sort((a, b) => (b.w * b.h) - (a.w * a.h));
 
+    let keyIndex = 0;
     for (const lot of ordered) {
+      const district = this.pickDistrict(def, lot, cols, rows);
       let type = null;
-      if (keyIndex < keyTypes.length) type = keyTypes[keyIndex];
-      else {
-        const pool = [
-          ['casa', 50], ['apartamento', 8], ['mercado', 8], ['oficina', 5], ['igreja', 3], ['cabana', 8],
-        ];
-        let total = pool.reduce((s, p) => s + p[1], 0), r = rng() * total;
-        for (const p of pool) { r -= p[1]; if (r <= 0) { type = p[0]; break; } }
-        type = type || 'casa';
+      if (keyIndex < profile.keyTypes.length && lot.w >= 8 && lot.h >= 7) {
+        type = profile.keyTypes[keyIndex++];
+      } else {
+        const pool = profile[district] || profile.residential || ['casa'];
+        type = choose(rng, pool);
       }
       const defB = BUILDINGS[type] || BUILDINGS.casa;
       const targetW = Math.min(defB.size[0], lot.w);
       const targetH = Math.min(defB.size[1], lot.h);
-      const bw = Math.max(6, targetW - (chance(rng, 0.3) ? 1 : 0));
-      const bh = Math.max(5, targetH - (chance(rng, 0.3) ? 1 : 0));
+      let bw = Math.max(6, Math.min(lot.w, targetW - (chance(rng, 0.3) ? 1 : 0)));
+      let bh = Math.max(5, Math.min(lot.h, targetH - (chance(rng, 0.3) ? 1 : 0)));
       if (bw > lot.w || bh > lot.h) continue;
-      const bx = lot.x + randInt(rng, 0, lot.w - bw);
-      const by = lot.y + randInt(rng, 0, lot.h - bh);
+      const bx = lot.x + randInt(rng, 0, Math.max(0, lot.w - bw));
+      const by = lot.y + randInt(rng, 0, Math.max(0, lot.h - bh));
       if (this.buildingOverlap(bx, by, bw, bh)) continue;
-      this.addBuilding(type, bx, by, bw, bh, { mainTown: main, key: keyIndex < keyTypes.length, town: name });
-      if (keyIndex < keyTypes.length) keyIndex++;
+      const isKey = keyIndex > 0 && type === profile.keyTypes[keyIndex - 1];
+      this.addBuilding(type, bx, by, bw, bh, {
+        mainTown: main, key: isKey, town: name, district, profile: def.profile,
+        name: isKey ? this.buildingName(type, defB, { key: true, town: name }) : null,
+      });
     }
 
-    // pontos de spawn na cidade
-    for (let k = 0; k < (main ? 28 : 14); k++) {
+    // Pequenas praças, estacionamentos e áreas de serviço
+    const featureCount = main ? 4 : 2;
+    for (let f = 0; f < featureCount; f++) {
+      const fx = randInt(rng, x0 + 4, x0 + w - 10), fy = randInt(rng, y0 + 4, y0 + h - 10);
+      if (this.nearBuilding(fx, fy, 3) || this.tile(fx, fy) === T.WATER) continue;
+      const kind = choose(rng, ['praca', 'estacionamento', 'terreno']);
+      if (kind === 'praca') {
+        for (let yy = fy; yy < fy + 4; yy++) for (let xx = fx; xx < fx + 5; xx++) if (this.tile(xx, yy) !== T.WATER) this.setTile(xx, yy, T.SIDEWALK);
+        this.decor.push({ type: 'campfire_dead', x: fx + 2, y: fy + 2, rot: 0 });
+        if (chance(rng, 0.6)) this.addContainer('caixa', fx + 1, fy + 1, { id: 0 }, 0.7);
+      } else if (kind === 'estacionamento') {
+        for (let yy = fy; yy < fy + 5; yy++) for (let xx = fx; xx < fx + 6; xx++) if (this.tile(xx, yy) !== T.WATER) this.setTile(xx, yy, T.GRAVEL);
+      } else {
+        for (let yy = fy; yy < fy + 3; yy++) for (let xx = fx; xx < fx + 4; xx++) if (this.tile(xx, yy) !== T.WATER) this.setTile(xx, yy, T.DIRT);
+      }
+    }
+
+    // Pontos de spawn e NPCs proporcionais ao tamanho da cidade
+    for (let k = 0; k < (main ? 42 : 18); k++) {
       const sx = randInt(rng, x0 + 3, x0 + w - 4), sy = randInt(rng, y0 + 3, y0 + h - 4);
       this.spawnPoints.push({ x: sx * TILE + 16, y: sy * TILE + 16, town: name });
     }
-    for (let k = 0; k < (main ? 8 : 4); k++) {
-      this.npcPoints.push({ x: randInt(rng, x0 + 4, x0 + w - 5) * TILE + 16, y: randInt(rng, y0 + 4, y0 + h - 5) * TILE + 16 });
+    for (let k = 0; k < (main ? 16 : 6); k++) {
+      this.npcPoints.push({ x: randInt(rng, x0 + 4, x0 + w - 5) * TILE + 16, y: randInt(rng, y0 + 4, y0 + h - 5) * TILE + 16, town: name });
     }
+  }
+
+  pickDistrict(def, lot, cols, rows) {
+    const { i, j } = lot;
+    if (def.profile === 'metropole' || def.profile === 'comercial') {
+      if (j >= 1 && j <= rows - 2 && i >= 1 && i <= cols - 2) return 'center';
+      if (i === 0 || j === rows - 1) return 'outskirts';
+      return 'residential';
+    }
+    if (def.profile === 'industrial') return (i % 2 === 0 || j === 0) ? 'industrial' : 'residential';
+    if (def.profile === 'rural' || def.profile === 'lago') return j === 0 ? 'industrial' : 'residential';
+    if (def.profile === 'militar') return j === 0 ? 'industrial' : 'residential';
+    if (def.profile === 'abandonado') return i === 0 ? 'outskirts' : 'residential';
+    return 'residential';
   }
 
   buildingOverlap(x, y, w, h) {
