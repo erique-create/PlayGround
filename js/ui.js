@@ -131,7 +131,8 @@ export class UI {
       tempLabel: this.$('tempLabel'), zoneLabel: this.$('zoneLabel'), coordLabel: this.$('coordLabel'),
       survivorCount: this.$('survivorCount'), statusRow: this.$('statusRow'), markerText: this.$('markerText'),
       markerDist: this.$('markerDist'), downedText: this.$('downedText'), mpBackground: this.$('mpBackground'),
-      mpDifficulty: this.$('mpDifficulty'), mpName: this.$('mpName'), mapCanvas: this.$('mapCanvas'),
+      mpDifficulty: this.$('mpDifficulty'), mpName: this.$('mpName'), mpCode: this.$('mpCode'),
+      mapCanvas: this.$('mapCanvas'),
       menuCanvas: this.$('menuCanvas'), pauseMute: this.$('pauseMute'),
       death: this.$('deathScreen'), pauseSave: this.$('pauseSave'),
     };
@@ -388,7 +389,10 @@ export class UI {
   }
 
   showLobby(room, players) {
+    // Nunca reabrir a sala por cima de uma partida em andamento.
+    if (this.game && !this.game.dead) { this.el.lobby?.classList.add('hidden'); return; }
     this._hideAllPanels();
+    this.el.loading?.classList.add('hidden');
     this.el.lobby?.classList.remove('hidden');
     if (this.el.lobbyCode) this.el.lobbyCode.textContent = room || '----';
     this.updateLobby(players || [], { isHost: this.mp?.isHost, room });
@@ -1264,7 +1268,7 @@ export class UI {
     const g = this.game;
     const p = g.player;
     const stats = [
-      ['Sobrevivente', p.name], ['Dias', g.day], ['Nível', p.level], ['Zumbis', g.stats.kills || 0],
+      ['Sobrevivente', p.name], ['Dias', g.day], ['Nível', p.level], ['Mortos', g.stats.kills || 0],
       ['Distância', Math.round((g.stats.distance || 0) / TILE) + ' m'], ['Construções', g.stats.built || 0],
     ];
     this.el.pauseStats.innerHTML = stats.map(([k, v]) => `<div class="stat-card"><span>${esc(k)}</span><strong>${esc(v)}</strong></div>`).join('');
@@ -1290,7 +1294,7 @@ export class UI {
     if (g && this.el.deathStats) {
       const distM = Math.round((g.stats.distance || 0) / TILE);
       const stats = [
-        ['Dias', g.day], ['Zumbis', g.stats.kills || 0], ['Nível', g.player.level], ['Distância', distM + 'm'],
+        ['Dias', g.day], ['Mortos', g.stats.kills || 0], ['Nível', g.player.level], ['Distância', distM + 'm'],
         ['Construções', g.stats.built || 0], ['Saqueados', g.stats.looted || 0], ['Sobreviventes', g.stats.survivorsMet || 0], ['Tiros', g.stats.shots || 0],
       ];
       this.el.deathStats.innerHTML = stats.map(([k, v]) => `<div class="ds"><span>${esc(k)}</span><strong>${esc(v)}</strong></div>`).join('');

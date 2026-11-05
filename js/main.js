@@ -219,6 +219,8 @@ function makeMultiplayer({ name, background }) {
     background,
     onLobby: (players, meta) => {
       if (!mp) return;
+      // Depois que a partida começa, eventos de lobby não devem reabrir a sala.
+      if (game && !game.dead) return;
       const lobby = ui.el.lobby;
       if (!mp.isHost && !mp.hostId) return;
       if (!lobby || lobby.classList.contains('hidden')) ui.showLobby(mp.room, players);

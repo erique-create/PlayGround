@@ -242,6 +242,8 @@ export class Multiplayer {
       }
       case 'state': {
         this._lastHostSeen = Date.now();
+        const p = this.players.get(msg.from);
+        if (p) p.lastSeen = Date.now();
         if (!this.game) return;
         this.game.receivePlayerState({ ...msg, id: msg.from });
         break;
@@ -315,6 +317,8 @@ export class Multiplayer {
       case 'ping': {
         this._lastHostSeen = Date.now();
         if (this.isHost) {
+          const p = this.players.get(msg.from);
+          if (p) p.lastSeen = Date.now();
           this._post({ t: 'pong' });
           if (!this.game) this._broadcastLobby();
         }

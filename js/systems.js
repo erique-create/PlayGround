@@ -2,7 +2,7 @@ import {
   clamp, lerp, dist, angleTo, angleDiff, randRange, randInt, chance, choose,
   TAU, isNight, uid,
 } from './util.js';
-import { ITEMS, ZOMBIE_TYPES, WEATHERS, EVENT_DEFS, BUILDABLES, SKILLS, CRAFT_RECIPES } from './data.js';
+import { ITEMS, ZOMBIE_TYPES, WEATHERS, EVENT_DEFS, BUILDABLES, SKILLS, CRAFT_RECIPES, AMBIENT_LINES } from './data.js';
 import { TILE, T } from './world.js';
 import { audio } from './audio.js';
 
@@ -707,6 +707,8 @@ export const systems = {
     const p = this.player;
     for (const n of [...this.npcs]) {
       if (!n.alive) continue;
+      if (!n.home) n.home = { x: n.x, y: n.y };
+      if (!Number.isFinite(n.anim)) n.anim = 0;
       n.anim += dt;
       n.hitFlash = Math.max(0, n.hitFlash - dt * 3);
       n.attackCd = Math.max(0, n.attackCd - dt);

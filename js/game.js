@@ -990,6 +990,7 @@ export class Game {
     if (sv.npcs) {
       this.npcs = sv.npcs.map(n => ({
         ...n, angle: 0, state: 'wander', attackCd: 0, alive: true, wander: null,
+        home: { x: n.x, y: n.y },
         idleTimer: 2, speed: n.hostile ? 120 : 80, maxHp: 100, weapon: 'bastao', following: !!n.following,
         anim: 0, hitFlash: 0, downed: false, loseInterest: 0, combatSkill: 2,
       }));

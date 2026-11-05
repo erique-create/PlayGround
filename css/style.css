@@ -350,7 +350,13 @@ kbd {
 .bg-card p { margin: 4px 0 0; color: #929986; font-size: 10.5px; line-height: 1.42; }
 .bg-skills { display: flex; flex-wrap: wrap; gap: 4px; margin-top: 9px; }
 .bg-skills span { font-size: 8.5px; letter-spacing: 0.06em; color: var(--amber); border: 1px solid rgba(224,185,95,0.24); background: rgba(224,185,95,0.06); border-radius: 20px; padding: 2px 6px; }
-.char-footer { display: flex; justify-content: space-between; align-items: center; gap: 22px; margin-top: auto; padding-top: 24px; }
+.char-footer {
+  position: sticky; bottom: -20px; z-index: 3;
+  display: flex; justify-content: space-between; align-items: center; gap: 22px;
+  margin-top: auto; padding: 18px 0 20px;
+  background: linear-gradient(180deg, rgba(12,16,13,0), rgba(12,16,13,0.92) 26%, rgba(12,16,13,0.98));
+  backdrop-filter: blur(6px);
+}
 .char-summary {
   flex: 1; border-left: 2px solid rgba(224,185,95,0.42);
   padding: 10px 16px; color: #b6b9a5; font-size: 12px; line-height: 1.6;
