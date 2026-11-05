@@ -1,0 +1,214 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no, viewport-fit=cover">
+  <meta name="theme-color" content="#121511">
+  <meta name="description" content="Cinzas de Aurora — um simulador de sobrevivência isométrico em mundo aberto.">
+  <title>Cinzas de Aurora — Sobrevivência</title>
+  <link rel="stylesheet" href="styles/main.css">
+</head>
+<body>
+  <svg class="svg-sprite" aria-hidden="true">
+    <symbol id="i-bag" viewBox="0 0 24 24"><path d="M5 8h14l-1 12H6L5 8Z"/><path d="M9 8V6a3 3 0 0 1 6 0v2"/><path d="M9 12h6"/></symbol>
+    <symbol id="i-skill" viewBox="0 0 24 24"><path d="M12 3v18M5 7l14 10M19 7 5 17"/></symbol>
+    <symbol id="i-map" viewBox="0 0 24 24"><path d="m3 6 6-2 6 2 6-2v14l-6 2-6-2-6 2V6Z"/><path d="M9 4v14M15 6v14"/></symbol>
+    <symbol id="i-journal" viewBox="0 0 24 24"><path d="M5 4h13a1 1 0 0 1 1 1v15H6a2 2 0 0 1-2-2V5a1 1 0 0 1 1-1Z"/><path d="M8 8h7M8 12h7M8 16h5"/></symbol>
+    <symbol id="i-menu" viewBox="0 0 24 24"><path d="M4 7h16M4 12h16M4 17h16"/></symbol>
+    <symbol id="i-hand" viewBox="0 0 24 24"><path d="M8 12V5a2 2 0 0 1 4 0v6-8a2 2 0 0 1 4 0v8-6a2 2 0 0 1 4 0v7c0 5-3 8-8 8h-1a7 7 0 0 1-7-7v-2a2 2 0 0 1 4 0Z"/></symbol>
+    <symbol id="i-sword" viewBox="0 0 24 24"><path d="m14 4 6-1-1 6-8 8-4-4 7-9Z"/><path d="m5 15 4 4M4 20l3-3M8 21l-3-3"/></symbol>
+    <symbol id="i-run" viewBox="0 0 24 24"><circle cx="14" cy="5" r="2"/><path d="m10 21 2-5-3-3 1-5 4 2 3 3M7 22l2-4M15 13l3 4"/></symbol>
+    <symbol id="i-crouch" viewBox="0 0 24 24"><circle cx="12" cy="5" r="2"/><path d="M8 20c0-4 2-6 4-6s4 2 4 6M9 11l3-2 4 2M6 15l3-4M18 14l-2-3"/></symbol>
+    <symbol id="i-x" viewBox="0 0 24 24"><path d="m6 6 12 12M18 6 6 18"/></symbol>
+    <symbol id="i-search" viewBox="0 0 24 24"><circle cx="10" cy="10" r="6"/><path d="m15 15 5 5"/></symbol>
+    <symbol id="i-save" viewBox="0 0 24 24"><path d="M5 3h12l3 3v15H5V3Z"/><path d="M8 3v6h8V3M8 21v-7h8v7"/></symbol>
+    <symbol id="i-gear" viewBox="0 0 24 24"><circle cx="12" cy="12" r="3"/><path d="M12 2v3M12 19v3M2 12h3M19 12h3M5 5l2 2M17 17l2 2M19 5l-2 2M7 17l-2 2"/></symbol>
+    <symbol id="i-heart" viewBox="0 0 24 24"><path d="M12 20S4 15 4 9a4 4 0 0 1 7-2 4 4 0 0 1 7 2c0 6-8 11-8 11Z"/></symbol>
+    <symbol id="i-drop" viewBox="0 0 24 24"><path d="M12 3s6 7 6 11a6 6 0 0 1-12 0c0-4 6-11 6-11Z"/></symbol>
+    <symbol id="i-food" viewBox="0 0 24 24"><path d="M6 3v8a3 3 0 0 0 3 3v7M6 3v8M10 3v8M18 3c-2 0-3 3-3 7 0 2 1 3 2 3v6M17 17v4"/></symbol>
+    <symbol id="i-sleep" viewBox="0 0 24 24"><path d="M20 15A8 8 0 0 1 9 4a8 8 0 1 0 11 11Z"/><path d="M15 4h4l-4 4h4"/></symbol>
+    <symbol id="i-bolt" viewBox="0 0 24 24"><path d="m13 2-8 12h6l-1 8 9-13h-6V2Z"/></symbol>
+    <symbol id="i-clock" viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M12 7v6l4 2"/></symbol>
+    <symbol id="i-pin" viewBox="0 0 24 24"><path d="M12 22s7-6 7-12a7 7 0 1 0-14 0c0 6 7 12 7 12Z"/><circle cx="12" cy="10" r="2"/></symbol>
+    <symbol id="i-rain" viewBox="0 0 24 24"><path d="M7 17a4 4 0 0 1 0-8 5 5 0 0 1 9-1 3 3 0 0 1 1 6"/><path d="m8 20-1 2M12 20l-1 2M16 20l-1 2"/></symbol>
+    <symbol id="i-sun" viewBox="0 0 24 24"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M2 12h2M20 12h2M5 5l1.5 1.5M17.5 17.5 19 19M19 5l-1.5 1.5M6.5 17.5 5 19"/></symbol>
+    <symbol id="i-check" viewBox="0 0 24 24"><path d="m4 12 5 5L20 6"/></symbol>
+    <symbol id="i-play" viewBox="0 0 24 24"><path d="M7 4l13 8-13 8V4Z"/></symbol>
+    <symbol id="i-pin2" viewBox="0 0 24 24"><path d="M12 21s7-6 7-12a7 7 0 1 0-14 0c0 6 7 12 7 12Z"/></symbol>
+  </svg>
+
+  <canvas id="game" aria-label="Mundo isométrico de Cinzas de Aurora"></canvas>
+
+  <div id="hud" class="hidden">
+    <div class="hud-top">
+      <div class="char-panel glass">
+        <div class="portrait" id="portrait">S</div>
+        <div class="char-main">
+          <div class="char-name-row"><span id="hudName">Sobrevivente</span><span class="prof-tag" id="hudProf">Sobrevivente</span></div>
+          <div class="health-line">
+            <span class="bar-label"><svg><use href="#i-heart"/></svg>VIDA</span>
+            <div class="mini-bar health"><i id="healthBar"></i></div>
+            <b id="healthNum">100</b>
+          </div>
+          <div class="needs-mini">
+            <div class="need-mini" title="Fome"><svg><use href="#i-food"/></svg><div class="mini-bar hunger"><i id="hungerBar"></i></div></div>
+            <div class="need-mini" title="Sede"><svg><use href="#i-drop"/></svg><div class="mini-bar thirst"><i id="thirstBar"></i></div></div>
+            <div class="need-mini" title="Sono"><svg><use href="#i-sleep"/></svg><div class="mini-bar sleep"><i id="sleepBar"></i></div></div>
+            <div class="need-mini" title="Fôlego"><svg><use href="#i-bolt"/></svg><div class="mini-bar stamina"><i id="staminaBar"></i></div></div>
+          </div>
+        </div>
+        <div class="status-chips" id="statusChips"></div>
+      </div>
+
+      <div class="clock-panel glass">
+        <div class="location"><svg><use href="#i-pin"/></svg><span id="locationName">Cruzamento Central</span></div>
+        <div class="clock-row">
+          <span id="clockTime">16:40</span>
+          <span class="clock-sep"></span>
+          <span id="dayLabel">DIA 1</span>
+          <span class="weather-pill" id="weatherPill"><svg><use href="#i-sun"/></svg><span id="weatherLabel">Limpo</span><b id="tempLabel">18°</b></span>
+        </div>
+      </div>
+
+      <div class="top-actions">
+        <button class="icon-btn" data-panel="inventory" aria-label="Mochila"><svg><use href="#i-bag"/></svg><span>Mochila</span></button>
+        <button class="icon-btn" data-panel="skills" aria-label="Habilidades"><svg><use href="#i-skill"/></svg><span>Habilidade</span></button>
+        <button class="icon-btn" data-panel="map" aria-label="Mapa"><svg><use href="#i-map"/></svg><span>Mapa</span></button>
+        <button class="icon-btn" data-panel="journal" aria-label="Diário"><svg><use href="#i-journal"/></svg><span>Diário</span></button>
+        <button class="icon-btn menu-btn" data-panel="pause" aria-label="Pausa"><svg><use href="#i-menu"/></svg></button>
+      </div>
+    </div>
+
+    <div id="objectiveTracker" class="glass">
+      <div class="obj-head"><span>OBJETIVO</span><span id="objCount">1/8</span></div>
+      <div id="objText">Encontre algo para comer.</div>
+      <div class="obj-bar"><i id="objBar"></i></div>
+    </div>
+
+    <div id="prompt" class="hidden"><span class="key">E</span><span id="promptLabel">Abrir porta</span></div>
+
+    <div id="toasts"></div>
+
+    <div id="fishingBar" class="hidden">
+      <span>PESCANDO…</span>
+      <div class="fish-track"><i id="fishingFill"></i></div>
+      <small>Mova-se para cancelar</small>
+    </div>
+
+    <div id="joystick" aria-label="Controle de movimento">
+      <div class="joy-ring">
+        <div class="joy-knob" id="joyKnob"></div>
+        <span class="joy-tick n"></span><span class="joy-tick e"></span><span class="joy-tick s"></span><span class="joy-tick w"></span>
+      </div>
+      <small>MOVER</small>
+    </div>
+
+    <div id="actionPad">
+      <button id="btnCrouch" class="act-btn small" aria-label="Agachar"><svg><use href="#i-crouch"/></svg><span>Agachar</span></button>
+      <button id="btnSprint" class="act-btn small" aria-label="Correr"><svg><use href="#i-run"/></svg><span>Correr</span></button>
+      <button id="btnInteract" class="act-btn interact" aria-label="Interagir"><svg><use href="#i-hand"/></svg><span>Ação</span></button>
+      <button id="btnAttack" class="act-btn attack" aria-label="Atacar"><svg><use href="#i-sword"/></svg><span>Ataque</span></button>
+    </div>
+
+    <div id="quickbar"></div>
+
+    <div id="buildBar" class="hidden glass">
+      <div><span class="build-kicker">CONSTRUINDO</span><b id="buildName">Barricada</b><small id="buildHint">Válido neste local</small></div>
+      <button id="buildConfirm" class="solid-btn">CONFIRMAR</button>
+      <button id="buildCancel" class="ghost-btn">CANCELAR</button>
+    </div>
+
+    <div id="desktopHints">
+      <span><b>WASD</b> mover</span><span><b>E</b> interagir</span><span><b>ESPAÇO</b> atacar</span><span><b>SHIFT</b> correr</span><span><b>CTRL</b> agachar</span><span><b>I</b> mochila</span><span><b>M</b> mapa</span>
+    </div>
+
+    <div id="hintBanner" class="hidden"><span id="hintText"></span></div>
+  </div>
+
+  <div id="menu" class="screen">
+    <div class="menu-shade"></div>
+    <header class="menu-top">
+      <div class="menu-brandline"><span class="mm-logo">CA</span><span>PROJETO AURORA / SOBREVIVÊNCIA</span></div>
+      <div class="menu-meta">BUILD 0.9 · MODO SOLO <button id="menuSound" class="sound-toggle" aria-label="Som">SOM: ON</button></div>
+    </header>
+
+    <main class="menu-main">
+      <section class="hero">
+        <div class="hero-eyebrow"><span></span>UMA CIDADE. NENHUMA SAÍDA.</div>
+        <h1>CINZAS<br><em>DE AURORA</em></h1>
+        <p class="hero-copy">Aurora caiu em três dias. O que restou são ruas vazias, casas saqueadas e mortos que não sabem descansar. Você tem fome, sede e uma última chance de construir um lar.</p>
+        <div class="hero-tags"><span>MUNDO ABERTO</span><span>ISOMÉTRICO</span><span>SOBREVIVÊNCIA</span></div>
+        <div class="hero-stamp">
+          <span class="stamp-line"></span>
+          <p>“Não é sobre matar todos.<br>É sobre viver até amanhã.”</p>
+          <span class="stamp-line"></span>
+        </div>
+      </section>
+
+      <section class="menu-card">
+        <div id="continueRow" class="continue-row hidden">
+          <button id="continueBtn" class="ghost-btn wide">
+            <span><b>CONTINUAR PARTIDA</b><small id="continueInfo">Dia 1 · 16:40</small></span>
+            <svg><use href="#i-play"/></svg>
+          </button>
+          <button id="deleteSave" class="trash-btn" aria-label="Apagar salvamento">×</button>
+        </div>
+        <div class="card-head">
+          <div><span class="card-kicker">FICHA DE SOBREVIVÊNCIA</span><h2>Quem você era?</h2></div>
+          <span class="card-num">01 / 03</span>
+        </div>
+        <div class="professions" id="professions"></div>
+        <div class="profession-desc" id="professionDesc">Sem treino formal, mas aprendeu a se virar.</div>
+
+        <div class="setup-grid">
+          <label class="field"><span>NOME</span><input id="playerName" maxlength="18" value="Aurora" autocomplete="off"></label>
+          <div class="field"><span>DIFICULDADE</span><div class="chips" id="difficultyChips"></div></div>
+        </div>
+
+        <button id="startBtn" class="play-btn" aria-label="Play">
+          <span class="play-icon"><svg><use href="#i-play"/></svg></span>
+          <span class="play-text"><b>JOGAR</b><small>ENTRAR NA CIDADE</small></span>
+          <span class="play-arrow">→</span>
+        </button>
+        <div class="card-foot"><span>SALVAMENTO AUTOMÁTICO</span><span>·</span><span>TOQUE OU TECLADO</span><span>·</span><span>SEM CONEXÃO</span></div>
+      </section>
+    </main>
+
+    <footer class="menu-footer">
+      <div class="controls-note"><b>COMO JOGAR</b><span>Joystick virtual para mover · botões para atacar, interagir, correr e agachar.</span></div>
+      <div class="footer-credits">UM JOGO DE SOBREVIVÊNCIA EM MUNDO ABERTO · v0.9</div>
+    </footer>
+  </div>
+
+  <div id="overlay" class="overlay hidden">
+    <div class="panel" id="panel" role="dialog" aria-modal="true">
+      <header class="panel-head">
+        <div class="panel-title-wrap"><span id="panelKicker">MOCHILA</span><h2 id="panelTitle">Inventário</h2></div>
+        <button id="panelClose" class="close-btn" aria-label="Fechar"><svg><use href="#i-x"/></svg></button>
+      </header>
+      <nav id="panelTabs" class="panel-tabs"></nav>
+      <div id="panelBody" class="panel-body"></div>
+      <footer id="panelFoot" class="panel-foot"></footer>
+    </div>
+  </div>
+
+  <div id="death" class="screen death-screen hidden">
+    <div class="death-grain"></div>
+    <div class="death-card">
+      <span class="death-kicker">A AURORA NÃO ESPERA</span>
+      <h1>VOCÊ NÃO<br><em>SOBREVIVEU</em></h1>
+      <p id="deathCause">Os mortos alcançaram você no cruzamento.</p>
+      <div class="death-stats" id="deathStats"></div>
+      <div class="death-actions">
+        <button id="retryBtn" class="play-btn compact" aria-label="Retry"><span class="play-icon"><svg><use href="#i-play"/></svg></span><span class="play-text"><b>TENTAR DE NOVO</b><small>NOVA PARTIDA</small></span></button>
+        <button id="deathMenuBtn" class="ghost-btn wide">VOLTAR AO MENU</button>
+      </div>
+    </div>
+  </div>
+
+  <div id="fade" class="fade"></div>
+  <div id="rotateHint" class="rotate-hint"><span>Gire o dispositivo para uma melhor experiência.</span></div>
+
+  <script type="module" src="js/game.js"></script>
+</body>
+</html>
